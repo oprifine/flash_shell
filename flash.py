@@ -1,3 +1,4 @@
+import numpy
 import datetime as dt
 import time as ti
 import os
@@ -6,18 +7,15 @@ import sys
 import psutil
 import shutil
 
-path = os.getcwd()
+base_dir = os.getcwd()
 
-# Define the ba
-# se directory for the scripts
-base_dir = os.path.join(os.path.expanduser('~/OneDrive/Desktop/flash_shell'))
-
-# Function to run scripts
 def run_script(script_name):
     script_path = os.path.join(base_dir, script_name)
-    sp.run([sys.executable, script_path])
+    if os.path.exists(script_path):
+        sp.run([sys.executable, script_path])
+    else:
+        print(f"Script not found: {script_name}")
 
-# Run version script to get the initial version
 version_script = 'databases/version.py'
 version = sp.run([sys.executable, os.path.join(base_dir, version_script)], capture_output=True, text=True)
 
@@ -28,24 +26,20 @@ print("Done loading!")
 
 print("Welcome to flash!")
 
-# Function to run programmersturtle.py
 def run_programmersturtle():
     run_script('dep/programmersturtle.py')
 
-# Function to run flashinfo.py
 def run_flashinfo():
     run_script('dep/flashinfo.py')
 
-# Function to run flashiinfo.py
 def run_flashiinfo():
     run_script('dep/flashiinfo.py')
 
-# Function to run calcshell.py
 def run_calcshell():
     run_script('dep/calcshell.py')
 
 while True:
-    cmd = input(f"{path} | flash ")
+    cmd = input(f"{base_dir}|flash ")
 
     path = os.getcwd()
 
@@ -57,15 +51,22 @@ while True:
         new_path = cmd.split(" ", 1)[1].strip()
         full_path = os.path.join(path, new_path)
         try:
-            # Change the directory
             os.chdir(full_path)
-            path = os.getcwd()
-            print(f"Changed directory to: {path}")
+            base_dir = os.getcwd()  # Update base_dir to the new current directory
+            print(f"Changed directory to: {base_dir}")
         except FileNotFoundError:
             print(f"Directory not found: {new_path}")
+        except PermissionError:
+            print(f"Permission denied to access: {new_path}")
+    elif cmd == "setbase":
+        new_base_dir = input("Enter the new base directory: ").strip()
+        if os.path.exists(new_base_dir) and os.path.isdir(new_base_dir):
+            base_dir = os.path.abspath(new_base_dir)
+            print(f"Base directory set to: {base_dir}")
+        else:
+            print(f"Invalid directory: {new_base_dir}")
     elif cmd == "ls":
-        # List files and directories in the current directory
-        files = os.listdir(path)
+        files = os.listdir(base_dir)  # Use base_dir instead of path
         print("\n".join(files))
     elif cmd == "turtle":
         run_programmersturtle()
@@ -87,7 +88,6 @@ while True:
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
     elif cmd == "uptime":
-        # Get system uptime using psutil
         uptime_seconds = int(ti.time() - psutil.boot_time())
         uptime_string = str(dt.timedelta(seconds=uptime_seconds))
         print(f"System Uptime: {uptime_string}")
@@ -106,60 +106,52 @@ while True:
     elif cmd == "restart":
         sp.run(['shutdown', '/r'])
     elif cmd == "cpuinfo":
-        # Get CPU information using psutil
         print("CPU Information:")
         print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
         print(f"    CPU Usage: {psutil.cpu_percent()}%")
     elif cmd.startswith("mkdir "):
-        # Create a new directory
         dir_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.mkdir(os.path.join(path, dir_name))
+            os.mkdir(os.path.join(base_dir, dir_name))  # Use base_dir instead of path
             print(f"Directory '{dir_name}' created successfully.")
         except FileExistsError:
             print(f"Directory '{dir_name}' already exists.")
     elif cmd.startswith("rmdir "):
-        # Remove a directory
         dir_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.rmdir(os.path.join(path, dir_name))
+            os.rmdir(os.path.join(base_dir, dir_name))  # Use base_dir instead of path
             print(f"Directory '{dir_name}' removed successfully.")
         except FileNotFoundError:
             print(f"Directory '{dir_name}' not found.")
     elif cmd.startswith("rm ") or cmd.startswith("remove "):
-        # Remove a file
         file_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.remove(os.path.join(path, file_name))
+            os.remove(os.path.join(base_dir, file_name))  # Use base_dir instead of path
             print(f"File '{file_name}' removed successfully.")
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
     elif cmd.startswith("copy "):
-        # Copy a file
         file_source, file_destination = map(str.strip, cmd.split(" ", 2)[1:])
         try:
-            shutil.copyfile(os.path.join(path, file_source), os.path.join(path, file_destination))
+            shutil.copyfile(os.path.join(base_dir, file_source), os.path.join(base_dir, file_destination))  # Use base_dir instead of path
             print(f"File '{file_source}' copied to '{file_destination}' successfully.")
         except FileNotFoundError:
             print(f"File '{file_source}' not found.")
         except PermissionError:
             print(f"Permission denied to copy '{file_source}'.")
     elif cmd.startswith("rename "):
-        # Rename a file or directory
         old_name, new_name = map(str.strip, cmd.split(" ", 2)[1:])
         try:
-            os.rename(os.path.join(path, old_name), os.path.join(path, new_name))
+            os.rename(os.path.join(base_dir, old_name), os.path.join(base_dir, new_name))  # Use base_dir instead of path
             print(f"Renamed '{old_name}' to '{new_name}' successfully.")
         except FileNotFoundError:
             print(f"File or directory '{old_name}' not found.")
     elif cmd == "listprocesses":
-        # List running processes
         processes = psutil.process_iter(['pid', 'name'])
         print("Running Processes:")
         for process in processes:
             print(f"    {process.info['pid']}: {process.info['name']}")
     elif cmd.startswith("kill "):
-        # Kill a process by PID
         pid_to_kill = cmd.split(" ", 1)[1].strip()
         try:
             process = psutil.Process(int(pid_to_kill))
@@ -168,15 +160,13 @@ while True:
         except psutil.NoSuchProcess:
             print(f"No process found with PID {pid_to_kill}.")
     elif cmd == "diskusage":
-        # Get disk usage information using psutil
-        disk_usage = psutil.disk_usage(path)
+        disk_usage = psutil.disk_usage(base_dir)  # Use base_dir instead of path
         print("Disk Usage Information:")
         print(f"    Total Disk Space: {disk_usage.total / (1024 ** 3):.2f} GB")
         print(f"    Used Disk Space: {disk_usage.used / (1024 ** 3):.2f} GB")
         print(f"    Free Disk Space: {disk_usage.free / (1024 ** 3):.2f} GB")
         print(f"    Disk Usage Percentage: {disk_usage.percent}%")
     elif cmd.startswith("open "):
-        # Open a file using the default system program
         file_to_open = cmd.split(" ", 1)[1].strip()
         try:
             sp.run(['open', file_to_open])  # Adjust 'open' based on the operating system
@@ -185,16 +175,13 @@ while True:
         except PermissionError:
             print(f"Permission denied to open '{file_to_open}'.")
     elif cmd == "listenv":
-        # List environment variables
         for key, value in os.environ.items():
             print(f"{key}: {value}")
     elif cmd.startswith("setenv "):
-        # Set environment variable
         env_var, env_value = map(str.strip, cmd.split(" ", 2)[1:])
         os.environ[env_var] = env_value
         print(f"Environment variable '{env_var}' set to '{env_value}'.")
     elif cmd.startswith("unsetenv "):
-        # Unset (remove) environment variable
         env_var_to_unset = cmd.split(" ", 1)[1].strip()
         try:
             del os.environ[env_var_to_unset]
@@ -202,13 +189,10 @@ while True:
         except KeyError:
             print(f"Environment variable '{env_var_to_unset}' not found.")
     elif cmd == "listaliases":
-        # List defined aliases
         print("Defined Aliases:")
         print("    ls -> list")
         print("    cd -> changedir")
-        # Add more aliases as needed
     elif cmd.startswith("alias "):
-        # Define an alias
         alias_definition = cmd.split(" ", 1)[1].strip()
         alias_name, alias_command = map(str.strip, alias_definition.split("=", 1))
         if alias_name and alias_command:
@@ -217,16 +201,13 @@ while True:
         else:
             print("Invalid alias definition. Usage: alias <name> = <command>")
     elif cmd.startswith("unalias "):
-        # Remove an alias
         alias_to_remove = cmd.split(" ", 1)[1].strip()
         try:
-            # Remove the alias (if exists)
             del locals()[alias_to_remove]
             print(f"Alias '{alias_to_remove}' removed successfully.")
         except KeyError:
             print(f"Alias '{alias_to_remove}' not found.")
     elif cmd == "listusers":
-        # List all user accounts on the system
         try:
             users = sp.run(['net', 'user'], capture_output=True, text=True)
             print("List of Users:")
@@ -234,7 +215,6 @@ while True:
         except FileNotFoundError:
             print("Command 'net' not found. This command may not work on non-Windows systems.")
     elif cmd.startswith("userinfo "):
-        # Get information about a specific user
         username = cmd.split(" ", 1)[1].strip()
         try:
             user_info = sp.run(['net', 'user', username], capture_output=True, text=True)
@@ -243,7 +223,6 @@ while True:
         except FileNotFoundError:
             print("Command 'net' not found. This command may not work on non-Windows systems.")
     elif cmd == "listgroups":
-        # List all groups on the system
         try:
             groups = sp.run(['net', 'localgroup'], capture_output=True, text=True)
             print("List of Groups:")
@@ -251,7 +230,6 @@ while True:
         except FileNotFoundError:
             print("Command 'net' not found. This command may not work on non-Windows systems.")
     elif cmd.startswith("groupinfo "):
-        # Get information about a specific group
         groupname = cmd.split(" ", 1)[1].strip()
         try:
             group_info = sp.run(['net', 'localgroup', groupname], capture_output=True, text=True)
@@ -260,7 +238,6 @@ while True:
         except FileNotFoundError:
             print("Command 'net' not found. This command may not work on non-Windows systems.")
     elif cmd == "ipconfig":
-        # Display IP configuration information
         try:
             ipconfig_info = sp.run(['ipconfig'], capture_output=True, text=True)
             print("IP Configuration Information:")
@@ -268,7 +245,6 @@ while True:
         except FileNotFoundError:
             print("Command 'ipconfig' not found. This command may not work on non-Windows systems.")
     elif cmd.startswith("ping "):
-        # Ping a specific host or IP address
         host = cmd.split(" ", 1)[1].strip()
         try:
             ping_result = sp.run(['ping', '-n', '4', host], capture_output=True, text=True)
@@ -277,7 +253,6 @@ while True:
         except FileNotFoundError:
             print("Command 'ping' not found. This command may not work on non-Windows systems.")
     elif cmd.startswith("traceroute "):
-        # Perform a traceroute to a specific host or IP address
         host = cmd.split(" ", 1)[1].strip()
         try:
             traceroute_result = sp.run(['tracert', host], capture_output=True, text=True)
@@ -294,5 +269,3 @@ while True:
     elif cmd == "exit":
         print("Exiting flash shell. Goodbye!")
         break
-    else:
-        print(f"Unknown command: {cmd}, please wait for a future version where it might be implemented.")
