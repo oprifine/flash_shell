@@ -1,3 +1,4 @@
+import numpy
 import datetime as dt
 import time as ti
 import os
