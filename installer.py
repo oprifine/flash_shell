@@ -1,52 +1,37 @@
-import subprocess
-import sys
+import subprocess as sp
 
-def install_package(package_manager, package_name):
-    try:
-        if package_manager == 'apt':
-            subprocess.check_call(['sudo', 'apt', 'install', package_name])
-        elif package_manager == 'pip':
-            subprocess.check_call(['pip', 'install', package_name])
-        elif package_manager == 'winget':
-            subprocess.check_call(['winget', 'install', package_name])
-        elif package_manager == 'yum':
-            subprocess.check_call(['sudo', 'yum', 'install', package_name])
-        elif package_manager == 'dnf':
-            subprocess.check_call(['sudo', 'dnf', 'install', package_name])
-        elif package_manager == 'exit':
-            sys.exit(0)
-        else:
-            print(f"Error: Unsupported package manager '{package_manager}'.")
-            return
-        
-        print(f"Package '{package_name}' installed successfully using {package_manager}.")
-    except subprocess.CalledProcessError:
-        print(f"Error: Failed to install package '{package_name}' using {package_manager}.")
+print("Welcome to the flash package installer!")
+mng = input("What manager do you use? \n"
+             "|apt| Linux package manager.\n"
+             "|yum| Linux package manager.\n"
+             "|winget| Windows package manager.\n"
+             "|pip| Python package/module manager.\n"
+             "|exit| Exit this manager. ")
+pkg = input("What package do you want to install/uninstall? ")
 
-def choose_package_manager():
-    print("Choose a package manager:")
-    print("1. apt")
-    print("2. pip")
-    print("3. winget")
-    print("4. yum")
-    print("5. dnf")
-    print("6. exit")
+# Ensure the user input is lowercase for case-insensitive comparison
+mng = mng.lower()
 
-    choice = input("Enter the number corresponding to your choice: ")
-    return {
-        '1': 'apt',
-        '2': 'pip',
-        '3': 'winget',
-        '4': 'yum',
-        '5': 'dnf',
-        '6': 'exit'
-    }.get(choice, 'exit')
+if mng == "apt":
+    command = f"sudo apt install {pkg}"
+elif mng == "yum":
+    command = f"sudo yum install {pkg}"
+elif mng == "winget":
+    command = f"winget install {pkg}"
+elif mng == "pip":
+    command = f"pip install {pkg}"
+elif mng == "exit":
+    print("Exiting the manager.")
+    exit()
+elif mng == "vscode":
+    command = f"code"
+else:
+    print("Invalid manager choice. Exiting.")
+    exit()
 
-if __name__ == "__main__":
-    package_manager = choose_package_manager()
-
-    if package_manager == 'exit':
-        sys.exit(0)
-
-    package_name = input("Enter the name of the package to install: ")
-    install_package(package_manager, package_name)
+try:
+    # Run the command using subprocess
+    sp.run(command, shell=True, check=True)
+    print(f"{pkg} has been successfully installed/uninstalled using {mng}.")
+except sp.CalledProcessError as e:
+    print(f"Error: {e}")
