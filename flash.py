@@ -8,7 +8,8 @@ import shutil
 
 path = os.getcwd()
 
-# Define the base directory for the scripts
+# Define the ba
+# se directory for the scripts
 base_dir = os.path.join(os.path.expanduser('~/OneDrive/Desktop/flash_shell'))
 
 # Function to run scripts
@@ -44,7 +45,7 @@ def run_calcshell():
     run_script('dep/calcshell.py')
 
 while True:
-    cmd = input(f"{path}|flash ")
+    cmd = input(f"{path} | flash ")
 
     path = os.getcwd()
 
