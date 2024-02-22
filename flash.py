@@ -1,9 +1,8 @@
-import numpy
-import datetime as dt
-import time as ti
 import os
 import subprocess as sp
 import sys
+import datetime as dt
+import time as ti
 import psutil
 import shutil
 
@@ -29,12 +28,6 @@ print("Welcome to flash!")
 def run_programmersturtle():
     run_script('dep/programmersturtle.py')
 
-def run_git(command):
-    try:
-        sp.run(['git'] + command.split(), check=True)
-    except sp.CalledProcessError as e:
-        print(f"Error executing Git command: {e}")
-
 def run_flashinfo():
     run_script('dep/flashinfo.py')
 
@@ -43,6 +36,9 @@ def run_flashiinfo():
 
 def run_calcshell():
     run_script('dep/calcshell.py')
+
+# Import the run_brainfuck function from emulators.py
+from r"dep/emulators" import run_brainfuck
 
 while True:
     cmd = input(f"{base_dir}|flash ")
@@ -118,8 +114,11 @@ while True:
     elif cmd == "git":
         git_command = input("Enter Git command: ")
         run_git(git_command)
-    elif cmd == "bf":
-        sp.run(['python', 'bf.py'])
+    elif cmd.startswith("bf "):
+        code = cmd[3:]
+        result = run_brainfuck(code)
+        print("Output:")
+        print(result)
     elif cmd == "shutdown":
         sp.run(['shutdown', '/s'])
     elif cmd == "restart":
