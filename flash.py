@@ -5,18 +5,8 @@ import turtle
 import datetime as dt
 import time as ti
 import psutil
+import random as r
 import shutil
-
-base_dir = os.getcwd()
-def run_script(script_name):
-    script_path = os.path.join(base_dir, script_name)
-    if os.path.exists(script_path):
-        sp.run([sys.executable, script_path])
-    else:
-        print(f"Script not found: {script_name}")
-
-version_script = 'databases/version.py'
-version = sp.run([sys.executable, os.path.join(base_dir, version_script)], capture_output=True, text=True)
 
 print("Setting shell....")
 print("Optimizing...")
@@ -25,40 +15,44 @@ print("Done loading!")
 
 print("Welcome to flash!")
 
-def run_programmersturtle():
-    run_script('dep/programmersturtle.py')
+base_dir = os.getcwd()
 
-def run_flashinfo():
-    run_script('dep/flashinfo.py')
+def run_script(script_name):
+    script_path = os.path.join(base_dir, script_name)
+    if os.path.exists(script_path):
+        sp.run([sys.executable, script_path])
+    else:
+        print(f"Script not found: {script_name}")
 
-def run_flashiinfo():
-    run_script('dep/flashiinfo.py')
+def display_system_info():
+    print("CPU Information:")
+    print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
+    print(f"    CPU Usage: {psutil.cpu_percent()}%")
 
-def run_calcshell():
-    run_script('dep/calcshell.py')
+    disk_usage = psutil.disk_usage(base_dir)
+    print("\nDisk Usage Information:")
+    print(f"    Total Disk Space: {disk_usage.total / (1024 ** 3):.2f} GB")
+    print(f"    Used Disk Space: {disk_usage.used / (1024 ** 3):.2f} GB")
+    print(f"    Free Disk Space: {disk_usage.free / (1024 ** 3):.2f} GB")
+    print(f"    Disk Usage Percentage: {disk_usage.percent}%")
 
-# Thank y'all for viewing this!
 
 while True:
     cmd = input(f"{base_dir}|flash ")
 
-    path = os.getcwd()
-
     if cmd == "version":
-        print(version.stdout)
+        print(sp.run([sys.executable, os.path.join(base_dir, 'databases/version.py')], capture_output=True, text=True).stdout)
     elif cmd == "get":
         run_script('databases/installer.py')
     elif cmd.startswith("cd ") or cmd.startswith("changedir "):
         new_path = cmd.split(" ", 1)[1].strip()
-        full_path = os.path.join(path, new_path)
+        full_path = os.path.join(base_dir, new_path)
         try:
             os.chdir(full_path)
-            base_dir = os.getcwd()  # Update base_dir to the new current directory
+            base_dir = os.getcwd()
             print(f"Changed directory to: {base_dir}")
-        except FileNotFoundError:
-            print(f"Directory not found: {new_path}")
-        except PermissionError:
-            print(f"Permission denied to access: {new_path}")
+        except (FileNotFoundError, PermissionError) as e:
+            print(f"Error: {e}")
     elif cmd == "setbase":
         new_base_dir = input("Enter the new base directory: ").strip()
         if os.path.exists(new_base_dir) and os.path.isdir(new_base_dir):
@@ -67,37 +61,40 @@ while True:
         else:
             print(f"Invalid directory: {new_base_dir}")
     elif cmd == "ls":
-        files = os.listdir(base_dir)  # Use base_dir instead of path
+        files = os.listdir(base_dir)
         print("\n".join(files))
     elif cmd == "turtle":
-        run_programmersturtle()
+        run_script('dep/programmersturtle.py')
     elif cmd == "time":
         current_time = dt.datetime.now().strftime("%H:%M:%S")
         print(f"Current time: {current_time}")
+    elif cmd == "!number":
+        random_number = r.randint(0, 100)
+        print(random_number)
     elif cmd == "date":
         current_date = dt.datetime.now().strftime("%Y-%m-%d")
         print(f"Current date: {current_date}")
     elif cmd == "whoami":
         print(os.getlogin())
     elif cmd == "!info":
-        run_flashinfo() 
+        run_script('dep/flashinfo.py') 
     elif cmd == "info":
-        run_flashiinfo()
+        run_script('dep/flashiinfo.py')
     elif cmd == "twister":
         twistos = input("What variant do you want to switch to? (Just input 'flash' if you want to go back to the original shell.) ")
         if twistos in ('zsh', 'bash', 'csh', 'powershell', 'fish', 'pufferfish', ):
-            sp.run(['python', f'flash{twistos}.py'])
+                sp.run(['python', f'flash{twistos}.py'])
         else:
-            sp.run(['python', 'flash.py'])
+                sp.run(['python', 'flash.py'])
     elif cmd == "cal":
-        run_calcshell()
+        run_script('dep/calcshell.py')
     elif cmd == "greet":
         name = input("What is your name?")
         print("Hello,", name, "!")
     elif cmd == "echo":
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
-    elif cmd.__contains__("fuck"):
+    elif "fuck" in cmd:
         print("no.")
     elif cmd == "infinite":
         while_text = input("Enter text: ")
@@ -120,8 +117,8 @@ while True:
     elif cmd.startswith("chmod "):
         try:
             permission, file_name = cmd.split(" ", 2)[1:]
-            permission = int(permission, 8)  # Convert octal to decimal
-            os.chmod(os.path.join(path, file_name), permission)
+            permission = int(permission, 8)
+            os.chmod(os.path.join(base_dir, file_name), permission)
             print(f"Permissions for '{file_name}' changed successfully.")
         except (ValueError, FileNotFoundError) as e:
             print(f"Error: {e}")
@@ -129,7 +126,6 @@ while True:
         sp.run(['tasklist'])
     elif cmd == "git":
         git_command = input("Enter Git command: ")
-        # Assuming run_git is defined elsewhere
         sp.run(['git', git_command])
     elif cmd.startswith("bf "):
         print("brainfucklang")
@@ -144,28 +140,28 @@ while True:
     elif cmd.startswith("mkdir "):
         dir_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.mkdir(os.path.join(base_dir, dir_name))  # Use base_dir instead of path
+            os.mkdir(os.path.join(base_dir, dir_name))
             print(f"Directory '{dir_name}' created successfully.")
         except FileExistsError:
             print(f"Directory '{dir_name}' already exists.")
     elif cmd.startswith("rmdir "):
         dir_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.rmdir(os.path.join(base_dir, dir_name))  # Use base_dir instead of path
+            os.rmdir(os.path.join(base_dir, dir_name))
             print(f"Directory '{dir_name}' removed successfully.")
         except FileNotFoundError:
             print(f"Directory '{dir_name}' not found.")
     elif cmd.startswith("rm ") or cmd.startswith("remove "):
         file_name = cmd.split(" ", 1)[1].strip()
         try:
-            os.remove(os.path.join(base_dir, file_name))  # Use base_dir instead of path
+            os.remove(os.path.join(base_dir, file_name))
             print(f"File '{file_name}' removed successfully.")
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
     elif cmd.startswith("copy "):
         file_source, file_destination = map(str.strip, cmd.split(" ", 2)[1:])
         try:
-            shutil.copyfile(os.path.join(base_dir, file_source), os.path.join(base_dir, file_destination))  # Use base_dir instead of path
+            shutil.copyfile(os.path.join(base_dir, file_source), os.path.join(base_dir, file_destination))
             print(f"File '{file_source}' copied to '{file_destination}' successfully.")
         except FileNotFoundError:
             print(f"File '{file_source}' not found.")
@@ -174,7 +170,7 @@ while True:
     elif cmd.startswith("rename "):
         old_name, new_name = map(str.strip, cmd.split(" ", 2)[1:])
         try:
-            os.rename(os.path.join(base_dir, old_name), os.path.join(base_dir, new_name))  # Use base_dir instead of path
+            os.rename(os.path.join(base_dir, old_name), os.path.join(base_dir, new_name))
             print(f"Renamed '{old_name}' to '{new_name}' successfully.")
         except FileNotFoundError:
             print(f"File or directory '{old_name}' not found.")
@@ -192,7 +188,7 @@ while True:
         except psutil.NoSuchProcess:
             print(f"No process found with PID {pid_to_kill}.")
     elif cmd == "diskusage":
-        disk_usage = psutil.disk_usage(base_dir)  # Use base_dir instead of path
+        disk_usage = psutil.disk_usage(base_dir)
         print("Disk Usage Information:")
         print(f"    Total Disk Space: {disk_usage.total / (1024 ** 3):.2f} GB")
         print(f"    Used Disk Space: {disk_usage.used / (1024 ** 3):.2f} GB")
@@ -201,7 +197,7 @@ while True:
     elif cmd.startswith("open "):
         file_to_open = cmd.split(" ", 1)[1].strip()
         try:
-            sp.run(['open', file_to_open])  # Adjust 'open' based on the operating system
+            sp.run(['open', file_to_open])
         except FileNotFoundError:
             print(f"File '{file_to_open}' not found.")
         except PermissionError:
