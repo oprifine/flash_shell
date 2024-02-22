@@ -17,12 +17,14 @@ print("Welcome to flash!")
 
 base_dir = os.getcwd()
 
+
 def run_script(script_name):
     script_path = os.path.join(base_dir, script_name)
     if os.path.exists(script_path):
         sp.run([sys.executable, script_path])
     else:
         print(f"Script not found: {script_name}")
+
 
 def display_system_info():
     print("CPU Information:")
@@ -77,15 +79,52 @@ while True:
     elif cmd == "whoami":
         print(os.getlogin())
     elif cmd == "!info":
-        run_script('dep/flashinfo.py') 
+        run_script('dep/flashinfo.py')
+    elif cmd == "weather":
+        city = input("Enter the city for weather information: ")
+        sp.run(['curl', f'wttr.in/{city}'])
+    elif cmd == "randomword":
+        sp.run(['curl', 'randomword.com'])
+    elif cmd == "download":
+        url = input("Enter the URL to download: ")
+        try:
+            sp.run(['wget', url])
+            print(f"Downloaded successfully from {url}.")
+        except FileNotFoundError:
+            print("Command 'wget' not found. Please install it to use this command.")
+    elif cmd.startswith("search "):
+        query = cmd.split(" ", 1)[1].strip()
+        sp.run(['curl', f'https://www.google.com/search?q={query}'])
+    elif cmd.startswith("translate "):
+        text_to_translate = cmd.split(" ", 1)[1].strip()
+        sp.run(['trans', text_to_translate])
+    elif cmd == "spotify":
+        sp.run(['spotify'])
+    elif cmd.startswith("calculate "):
+        expression = cmd.split(" ", 1)[1].strip()
+        sp.run(['python', '-c', f'print({expression})'])
+    elif cmd == "checkinternet":
+        sp.run(['ping', '-c', '4', '8.8.8.8'])
+    elif cmd == "calendar":
+        sp.run(['cal'])
+    elif cmd == "fortune":
+        sp.run(['fortune'])
+    elif cmd == "rolladice":
+        sp.run(['shuf', '-i', '1-6', '-n', '1'])
+    elif cmd.startswith("wiki "):
+        topic = cmd.split(" ", 1)[1].strip()
+        sp.run(['curl', f'https://en.wikipedia.org/wiki/{topic}'])
+    elif cmd.startswith("quote "):
+        author = cmd.split(" ", 1)[1].strip()
+        sp.run(['curl', f'https://api.quotable.io/random?author={author}'])
     elif cmd == "info":
         run_script('dep/flashiinfo.py')
     elif cmd == "twister":
         twistos = input("What variant do you want to switch to? (Just input 'flash' if you want to go back to the original shell.) ")
-        if twistos in ('zsh', 'bash', 'csh', 'powershell', 'fish', 'pufferfish', ):
-                sp.run(['python', f'flash{twistos}.py'])
+        if twistos in ('zsh', 'bash', 'csh', 'powershell', 'fish', 'pufferfish'):
+            sp.run(['python', f'flash{twistos}.py'])
         else:
-                sp.run(['python', 'flash.py'])
+            sp.run(['python', 'flash.py'])
     elif cmd == "cal":
         run_script('dep/calcshell.py')
     elif cmd == "greet":
@@ -127,8 +166,6 @@ while True:
     elif cmd == "git":
         git_command = input("Enter Git command: ")
         sp.run(['git', git_command])
-    elif cmd.startswith("bf "):
-        print("brainfucklang")
     elif cmd == "shutdown":
         sp.run(['shutdown', '/s'])
     elif cmd == "restart":
@@ -312,7 +349,7 @@ while True:
         print("chmod <permission> <file_name> - Change file permissions.")
         print("tasklist - Display a list of running processes.")
         print("git - Run a Git command.")
-        print("bf - (placeholder).")
+        print("c, java, cpp, bf - Emulators for these languages. C, Java, C++, and .bf")
         print("shutdown - Shut down the system.")
         print("restart - Restart the system.")
         print("cpuinfo - Display CPU information.")
@@ -341,11 +378,39 @@ while True:
         print("help - Display this help message.")
         print("exit - Exit the flash shell.")
         print("sourcecode - Display the source code of the flash shell.")
-    elif cmd == "sourcecode":
-        with open(__file__, 'r') as source_code:
-            print(source_code.read())
+        print("download <url> - Downloads from the internet.")
+        print("cowsay <input> - The cow says something.")
+        print("nmap <target/ip address> - Finds the location?")
+        print("adduser <username> - Adds a user to the system.")
+        print("publicip - Finds your public ip (e.g 69.696.666.66)")
+        print("randomword - Prints a random word.")
+        print("search <query> - Searches Google for the query.")
+        print("translate <text> - Translates the text to English.")
+        print("spotify - Opens Spotify.")
+        print("calculate <expression> - Evaluates a mathematical expression.")
+        print("checkinternet - Checks internet connection.")
+        print("calendar - Displays calendar.")
+        print("fortune - Displays a fortune.")
+        print("rolladice - Rolls a six-sided dice.")
+        print("wiki <topic> - Opens Wikipedia page for the topic.")
+        print("quote <author> - Displays a random quote by the author.")
+        print("twister - Switch to another shell variant.")
+        print("greet - Greets the user.")
     elif cmd == "exit":
-        print("Exiting flash shell. Goodbye!")
+        print("Exiting flash...")
         break
+    elif cmd == "sourcecode":
+        run_script('dep/sourcecode.py')
+    elif cmd.startswith("cowsay "):
+        message = cmd.split(" ", 1)[1].strip()
+        sp.run(['cowsay', message])
+    elif cmd.startswith("nmap "):
+        target = cmd.split(" ", 1)[1].strip()
+        sp.run(['nmap', target])
+    elif cmd.startswith("adduser "):
+        username = cmd.split(" ", 1)[1].strip()
+        sp.run(['net', 'user', username])
+    elif cmd == "publicip":
+        sp.run(['curl', 'ifconfig.me'])
     else:
-        print(f"Unknown command: {cmd}")
+        print(f"Command not found: {cmd}")
