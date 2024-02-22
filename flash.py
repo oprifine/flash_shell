@@ -29,6 +29,12 @@ print("Welcome to flash!")
 def run_programmersturtle():
     run_script('dep/programmersturtle.py')
 
+def run_git(command):
+    try:
+        sp.run(['git'] + command.split(), check=True)
+    except sp.CalledProcessError as e:
+        print(f"Error executing Git command: {e}")
+
 def run_flashinfo():
     run_script('dep/flashinfo.py')
 
@@ -109,6 +115,11 @@ while True:
             print(f"Error: {e}")
     elif cmd == "tasklist":
         sp.run(['tasklist'])
+    elif cmd == "git":
+        git_command = input("Enter Git command: ")
+        run_git(git_command)
+    elif cmd == "bf":
+        sp.run(['python', 'bf.py'])
     elif cmd == "shutdown":
         sp.run(['shutdown', '/s'])
     elif cmd == "restart":
