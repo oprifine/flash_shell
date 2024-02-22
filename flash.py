@@ -308,7 +308,7 @@ while True:
         print("chmod <permission> <file_name> - Change file permissions.")
         print("tasklist - Display a list of running processes.")
         print("git - Run a Git command.")
-        print("bf - Brainfuck language (placeholder).")
+        print("bf - (placeholder).")
         print("shutdown - Shut down the system.")
         print("restart - Restart the system.")
         print("cpuinfo - Display CPU information.")
