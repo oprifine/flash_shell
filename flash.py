@@ -18,10 +18,19 @@ print("Welcome to flash!")
 base_dir = os.getcwd()
 
 
-def run_script(script_name):
+def run_script(script_name, upgrade=False, flag1=False, flag2=False, flag3=False):
     script_path = os.path.join(base_dir, script_name)
     if os.path.exists(script_path):
-        sp.run([sys.executable, script_path])
+        command = [sys.executable, script_path]
+        if upgrade:
+            command.append("--upgrade")
+        if flag1:
+            command.append("--flag1")
+        if flag2:
+            command.append("--flag2")
+        if flag3:
+            command.append("--flag3")
+        sp.run(command)
     else:
         print(f"Script not found: {script_name}")
 
@@ -43,9 +52,9 @@ while True:
     cmd = input(f"{base_dir}|flash ")
 
     if cmd == "version":
-        print(sp.run([sys.executable, os.path.join(base_dir, 'databases/version.py')], capture_output=True, text=True).stdout)
+        run_script('databases/version.py', upgrade=True, flag1=True, flag2=True, flag3=True)
     elif cmd == "get":
-        run_script('databases/installer.py')
+        run_script('databases/installer.py', upgrade=True, flag1=True, flag2=True, flag3=True)
     elif cmd.startswith("cd ") or cmd.startswith("changedir "):
         new_path = cmd.split(" ", 1)[1].strip()
         full_path = os.path.join(base_dir, new_path)
