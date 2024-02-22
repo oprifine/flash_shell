@@ -106,6 +106,8 @@ while True:
         os.system('cls' if os.name == 'nt' else 'clear')
     elif cmd == "listusb":
         sp.run(['wmic', 'diskdrive', 'list', 'brief'])
+    elif cmd == "custom":
+        print(vars)
     elif cmd == "systeminfo":
         sp.run(['systeminfo'])
     elif cmd == "netstat":
