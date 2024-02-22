@@ -37,7 +37,7 @@ def run_flashiinfo():
 def run_calcshell():
     run_script('dep/calcshell.py')
 
-# Import the run_brainfuck function directly
+# Thank y'all for viewing this!
 
 while True:
     cmd = input(f"{base_dir}|flash ")
