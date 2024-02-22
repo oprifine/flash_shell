@@ -7,7 +7,6 @@ import psutil
 import shutil
 
 base_dir = os.getcwd()
-
 def run_script(script_name):
     script_path = os.path.join(base_dir, script_name)
     if os.path.exists(script_path):
