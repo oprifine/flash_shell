@@ -38,14 +38,6 @@ def run_calcshell():
     run_script('dep/calcshell.py')
 
 # Import the run_brainfuck function directly
-from flash_shell.dep.bf import run_brainfuck
-
-def run_emulator(emulator_name):
-    try:
-        emulator_module = __import__(f"workspaces.flash_shell.dep.emulators.{emulator_name}", fromlist=['run_emulator'])
-        emulator_module.run_emulator()
-    except ImportError:
-        print(f"Emulator not found: {emulator_name}")
 
 while True:
     cmd = input(f"{base_dir}|flash ")
@@ -122,10 +114,7 @@ while True:
         git_command = input("Enter Git command: ")
         run_git(git_command)
     elif cmd.startswith("bf "):
-        code = cmd[3:]
-        result = run_brainfuck(code)
-        print("Output:")
-        print(result)
+        print("brainfucklang")
     elif cmd == "shutdown":
         sp.run(['shutdown', '/s'])
     elif cmd == "restart":
