@@ -303,6 +303,7 @@ while True:
         print("cal - Run the calcshell script.")
         print("echo - Echo a message.")
         print("infinite - Print a given text infinitely.")
+        print("!number - Selects random number.")
         print("uptime - Display system uptime.")
         print("clear - Clear the terminal screen.")
         print("listusb - List connected USB devices.")
