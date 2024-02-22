@@ -80,7 +80,7 @@ while True:
     elif cmd == "whoami":
         print(os.getlogin())
     elif cmd == "!info":
-        run_flashinfo()
+        run_flashinfo() 
     elif cmd == "info":
         run_flashiinfo()
     elif cmd == "twister":
@@ -94,6 +94,10 @@ while True:
     elif cmd == "echo":
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
+    elif cmd == "infinite":
+        while_text = input("Enter text: ")
+        while True:
+            print(while_text)
     elif cmd == "uptime":
         uptime_seconds = int(ti.time() - psutil.boot_time())
         uptime_string = str(dt.timedelta(seconds=uptime_seconds))
@@ -118,7 +122,8 @@ while True:
         sp.run(['tasklist'])
     elif cmd == "git":
         git_command = input("Enter Git command: ")
-        run_git(git_command)
+        # Assuming run_git is defined elsewhere
+        sp.run(['git', git_command])
     elif cmd.startswith("bf "):
         print("brainfucklang")
     elif cmd == "shutdown":
@@ -282,7 +287,56 @@ while True:
             print("Command 'tracert' not found. This command may not work on non-Windows systems.")
     elif cmd == "help":
         print("List of available commands:")
-        print("version, get, cd/changedir, ls, turtle, time, date, whoami, !info, info, cal, echo, uptime, clear, listusb, systeminfo, netstat, tasklist, shutdown, restart, cpuinfo, mkdir, rmdir, rm/remove, copy, rename, listprocesses, kill, diskusage, open, listenv, setenv, unsetenv, listaliases, alias, unalias, listusers, userinfo, listgroups, groupinfo, ipconfig, ping, traceroute, help, exit, sourcecode")
+        print("version - Display the current version of the flash shell.")
+        print("get - Run the installer script.")
+        print("cd/changedir <directory> - Change the current working directory.")
+        print("ls - List files and directories in the current directory.")
+        print("turtle - Run the programmersturtle script.")
+        print("time - Display the current time.")
+        print("date - Display the current date.")
+        print("whoami - Display the current username.")
+        print("!info - Run the flashinfo script.")
+        print("info - Run the flashiinfo script.")
+        print("cal - Run the calcshell script.")
+        print("echo - Echo a message.")
+        print("infinite - Print a given text infinitely.")
+        print("uptime - Display system uptime.")
+        print("clear - Clear the terminal screen.")
+        print("listusb - List connected USB devices.")
+        print("systeminfo - Display system information.")
+        print("netstat - Display network connections.")
+        print("chmod <permission> <file_name> - Change file permissions.")
+        print("tasklist - Display a list of running processes.")
+        print("git - Run a Git command.")
+        print("bf - Brainfuck language (placeholder).")
+        print("shutdown - Shut down the system.")
+        print("restart - Restart the system.")
+        print("cpuinfo - Display CPU information.")
+        print("mkdir <directory> - Create a new directory.")
+        print("rmdir <directory> - Remove an empty directory.")
+        print("rm/remove <file> - Remove a file.")
+        print("copy <source> <destination> - Copy a file.")
+        print("rename <old_name> <new_name> - Rename a file.")
+        print("listprocesses - List running processes.")
+        print("kill <pid> - Terminate a process by PID.")
+        print("diskusage - Display disk usage information.")
+        print("open <file> - Open a file.")
+        print("listenv - List environment variables.")
+        print("setenv <variable> <value> - Set an environment variable.")
+        print("unsetenv <variable> - Unset an environment variable.")
+        print("listaliases - List defined aliases.")
+        print("alias <name> = <command> - Define an alias.")
+        print("unalias <name> - Remove an alias.")
+        print("listusers - List user accounts.")
+        print("userinfo <username> - Display information about a user.")
+        print("listgroups - List local groups.")
+        print("groupinfo <groupname> - Display information about a group.")
+        print("ipconfig - Display IP configuration.")
+        print("ping <host> - Ping a host.")
+        print("traceroute <host> - Perform a traceroute to a host.")
+        print("help - Display this help message.")
+        print("exit - Exit the flash shell.")
+        print("sourcecode - Display the source code of the flash shell.")
     elif cmd == "sourcecode":
         with open(__file__, 'r') as source_code:
             print(source_code.read())
