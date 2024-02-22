@@ -82,7 +82,8 @@ while True:
     elif cmd == "whoami":
         print(os.getlogin())
     elif cmd == "!info":
-        run_flashinfo() 
+        run_flashinfo()
+     
     elif cmd == "info":
         run_flashiinfo()
     elif cmd == "twister":
