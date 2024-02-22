@@ -91,6 +91,9 @@ while True:
             sp.run(['python', 'flash.py'])
     elif cmd == "cal":
         run_calcshell()
+    elif cmd == "greet":
+        name = input("What is your name?")
+        print("Hello,", name, "!")
     elif cmd == "echo":
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
