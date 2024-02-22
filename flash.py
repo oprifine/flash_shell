@@ -37,16 +37,15 @@ def run_flashiinfo():
 def run_calcshell():
     run_script('dep/calcshell.py')
 
+# Import the run_brainfuck function directly
+from flash_shell.dep.bf import run_brainfuck
+
 def run_emulator(emulator_name):
-    emulator_module = f'dep.emulators.{emulator_name}'
     try:
-        # Import the run_emulator function dynamically
-        emulator_module = __import__(emulator_module, fromlist=['run_emulator'])
-        run_emulator = emulator_module.run_emulator
-        return run_emulator()
+        emulator_module = __import__(f"workspaces.flash_shell.dep.emulators.{emulator_name}", fromlist=['run_emulator'])
+        emulator_module.run_emulator()
     except ImportError:
-        print(f"Error: Emulator '{emulator_name}' not found.")
-        return None
+        print(f"Emulator not found: {emulator_name}")
 
 while True:
     cmd = input(f"{base_dir}|flash ")
@@ -124,10 +123,9 @@ while True:
         run_git(git_command)
     elif cmd.startswith("bf "):
         code = cmd[3:]
-        result = run_emulator('bf')
-        if result is not None:
-            print("Output:")
-            print(result)
+        result = run_brainfuck(code)
+        print("Output:")
+        print(result)
     elif cmd == "shutdown":
         sp.run(['shutdown', '/s'])
     elif cmd == "restart":
@@ -296,3 +294,5 @@ while True:
     elif cmd == "exit":
         print("Exiting flash shell. Goodbye!")
         break
+    else:
+        print(f"Unknown command: {cmd}")
