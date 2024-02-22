@@ -83,6 +83,12 @@ while True:
         run_flashinfo()
     elif cmd == "info":
         run_flashiinfo()
+    elif cmd == "twister":
+        twistos = input("What variant do you want to switch to? (Just input 'flash' if you want to go back to the original shell.) ")
+        if twistos in ('zsh', 'bash', 'csh', 'powershell', 'fish', 'pufferfish', ):
+            sp.run(['python', f'flash{twistos}.py'])
+        else:
+            sp.run(['python', 'flash.py'])
     elif cmd == "cal":
         run_calcshell()
     elif cmd == "echo":
