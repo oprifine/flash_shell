@@ -97,6 +97,8 @@ while True:
     elif cmd == "echo":
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
+    elif cmd.__contains__("fuck"):
+        print("no.")
     elif cmd == "infinite":
         while_text = input("Enter text: ")
         while True:
