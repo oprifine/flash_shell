@@ -99,6 +99,14 @@ while True:
         sp.run(['systeminfo'])
     elif cmd == "netstat":
         sp.run(['netstat', '-a'])
+    elif cmd.startswith("chmod "):
+        try:
+            permission, file_name = cmd.split(" ", 2)[1:]
+            permission = int(permission, 8)  # Convert octal to decimal
+            os.chmod(os.path.join(path, file_name), permission)
+            print(f"Permissions for '{file_name}' changed successfully.")
+        except (ValueError, FileNotFoundError) as e:
+            print(f"Error: {e}")
     elif cmd == "tasklist":
         sp.run(['tasklist'])
     elif cmd == "shutdown":
