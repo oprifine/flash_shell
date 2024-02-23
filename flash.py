@@ -43,9 +43,9 @@ def display_system_info():
 while True:
     cmd = input(f"{base_dir}|flash ")
 
-    if cmd == "version":
+    if cmd == "version" or cmd == "ver" or cmd == "v":
         run_script('databases/version.py', "--upgrade", "--flag1", "--flag2", "--flag3")
-    elif cmd == "get":
+    elif cmd == "get" or cmd == "g" or cmd == "fetch":
         run_script('databases/installer.py', "--upgrade", "--flag1", "--flag2", "--flag3")
     elif cmd.startswith("cd ") or cmd.startswith("changedir "):
         new_path = cmd.split(" ", 1)[1].strip()
@@ -56,41 +56,41 @@ while True:
             print(f"Changed directory to: {base_dir}")
         except (FileNotFoundError, PermissionError) as e:
             print(f"Error: {e}")
-    elif cmd == "setbase":
+    elif cmd == "setbase" or cmd == "setbasedir" or cmd == "setdir":
         new_base_dir = input("Enter the new base directory: ").strip()
         if os.path.exists(new_base_dir) and os.path.isdir(new_base_dir):
             base_dir = os.path.abspath(new_base_dir)
             print(f"Base directory set to: {base_dir}")
         else:
             print(f"Invalid directory: {new_base_dir}")
-    elif cmd == "ls":
+    elif cmd == "ls" or cmd == "list" or cmd == "dirlist":
         files = os.listdir(base_dir)
         print("\n".join(files))
-    elif cmd == "turtle":
+    elif cmd == "turtle" or cmd == "programmersturtle" or cmd == "drawturtle":
         run_script('dep/programmersturtle.py')
-    elif cmd == "time":
+    elif cmd == "time" or cmd == "currenttime" or cmd == "showtime":
         current_time = dt.datetime.now().strftime("%H:%M:%S")
         print(f"Current time: {current_time}")
-    elif cmd == "!number":
+    elif cmd == "!number" or cmd == "randomnumber" or cmd == "randnum":
         random_number = r.randint(0, 100)
         print(random_number)
-    elif cmd == "date":
+    elif cmd == "date" or cmd == "currentdate" or cmd == "showdate":
         current_date = dt.datetime.now().strftime("%Y-%m-%d")
         print(f"Current date: {current_date}")
-    elif cmd == "whoami":
+    elif cmd == "whoami" or cmd == "myname" or cmd == "username":
         print(os.getlogin())
-    elif cmd == "!info":
+    elif cmd == "!info" or cmd == "flashinfo" or cmd == "information":
         run_script('dep/flashinfo.py')
-    elif cmd == "weather":
+    elif cmd == "weather" or cmd == "forecast" or cmd == "getweather":
         city = input("Enter the city for weather information: ")
         sp.run(['curl', f'wttr.in/{city}'])
-    elif cmd == "randomword":
+    elif cmd == "randomword" or cmd == "randword" or cmd == "randomtext":
         response = requests.get('https://randomword.com/')
         if response.status_code == 200:
             print(response.text)
         else:
             print(f"Failed to fetch a random word. Status code: {response.status_code}")
-    elif cmd == "download":
+    elif cmd == "download" or cmd == "fetchfile" or cmd == "getfile":
         url = input("Enter the URL to download: ")
         try:
             sp.run(['wget', url])
@@ -103,18 +103,18 @@ while True:
     elif cmd.startswith("translate "):
         text_to_translate = cmd.split(" ", 1)[1].strip()
         sp.run(['trans', text_to_translate])
-    elif cmd == "spotify":
+    elif cmd == "spotify" or cmd == "music" or cmd == "playmusic":
         sp.run(['spotify'])
     elif cmd.startswith("calculate "):
         expression = cmd.split(" ", 1)[1].strip()
         sp.run(['python', '-c', f'print({expression})'])
-    elif cmd == "checkinternet":
+    elif cmd == "checkinternet" or cmd == "internetstatus" or cmd == "pinggoogle":
         sp.run(['ping', '-c', '4', '8.8.8.8'])
-    elif cmd == "calendar":
+    elif cmd == "calendar" or cmd == "showcalendar" or cmd == "viewcalendar":
         sp.run(['cal'])
-    elif cmd == "fortune":
+    elif cmd == "fortune" or cmd == "randomfortune" or cmd == "showfortune":
         sp.run(['fortune'])
-    elif cmd == "rolladice":
+    elif cmd == "rolladice" or cmd == "dice" or cmd == "rolldice":
         sp.run(['shuf', '-i', '1-6', '-n', '1'])
     elif cmd.startswith("wiki "):
         topic = cmd.split(" ", 1)[1].strip()
@@ -122,41 +122,41 @@ while True:
     elif cmd.startswith("quote "):
         author = cmd.split(" ", 1)[1].strip()
         sp.run(['curl', f'https://api.quotable.io/random?author={author}'])
-    elif cmd == "info":
+    elif cmd == "info" or cmd == "flashiinfo" or cmd == "information":
         run_script('dep/flashiinfo.py')
-    elif cmd == "twister":
+    elif cmd == "twister" or cmd == "switchshell" or cmd == "changesystem":
         twistos = input("What variant do you want to switch to? (Just input 'flash' if you want to go back to the original shell.) ")
         if twistos in ('zsh', 'bash', 'csh', 'powershell', 'fish', 'pufferfish'):
             sp.run(['python', f'flash{twistos}.py'])
         else:
             sp.run(['python', 'flash.py'])
-    elif cmd == "cal":
+    elif cmd == "cal" or cmd == "calculator" or cmd == "math":
         run_script('dep/calcshell.py')
-    elif cmd == "greet":
+    elif cmd == "greet" or cmd == "sayhello" or cmd == "hellomessage":
         name = input("What is your name?")
         print("Hello,", name, "!")
-    elif cmd == "echo":
+    elif cmd == "echo" or cmd == "repeat" or cmd == "say":
         message = input("Enter a message to echo: ")
         print(f"Echo: {message}")
     elif "fuck" in cmd:
         print("no.")
-    elif cmd == "infinite":
+    elif cmd == "infinite" or cmd == "repeattext" or cmd == "infiniteprint":
         while_text = input("Enter text: ")
         while True:
             print(while_text)
-    elif cmd == "uptime":
+    elif cmd == "uptime" or cmd == "systemuptime" or cmd == "showuptime":
         uptime_seconds = int(ti.time() - psutil.boot_time())
         uptime_string = str(dt.timedelta(seconds=uptime_seconds))
         print(f"System Uptime: {uptime_string}")
-    elif cmd == "clear":
+    elif cmd == "clear" or cmd == "cls" or cmd == "cleanscreen":
         os.system('cls' if os.name == 'nt' else 'clear')
-    elif cmd == "listusb":
+    elif cmd == "listusb" or cmd == "usblist" or cmd == "showusbdevices":
         sp.run(['wmic', 'diskdrive', 'list', 'brief'])
-    elif cmd == "custom":
+    elif cmd == "custom" or cmd == "customcommand" or cmd == "runcustom":
         print(vars)
-    elif cmd == "systeminfo":
+    elif cmd == "systeminfo" or cmd == "info" or cmd == "showinfo":
         sp.run(['systeminfo'])
-    elif cmd == "netstat":
+    elif cmd == "netstat" or cmd == "networkstatus" or cmd == "shownetwork":
         sp.run(['netstat', '-a'])
     elif cmd.startswith("chmod "):
         try:
@@ -166,16 +166,16 @@ while True:
             print(f"Permissions for '{file_name}' changed successfully.")
         except (ValueError, FileNotFoundError) as e:
             print(f"Error: {e}")
-    elif cmd == "tasklist":
+    elif cmd == "tasklist" or cmd == "processlist" or cmd == "showtasks":
         sp.run(['tasklist'])
-    elif cmd == "git":
+    elif cmd == "git" or cmd == "rungit" or cmd == "gitcommand":
         git_command = input("Enter Git command: ")
         sp.run(['git', git_command])
-    elif cmd == "shutdown":
+    elif cmd == "shutdown" or cmd == "turnoff" or cmd == "poweroff":
         sp.run(['shutdown', '/s'])
-    elif cmd == "restart":
+    elif cmd == "restart" or cmd == "reboot" or cmd == "softrestart":
         sp.run(['shutdown', '/r'])
-    elif cmd == "cpuinfo":
+    elif cmd == "cpuinfo" or cmd == "processorinfo" or cmd == "showcpuinfo":
         print("CPU Information:")
         print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
         print(f"    CPU Usage: {psutil.cpu_percent()}%")
@@ -216,12 +216,12 @@ while True:
             print(f"Renamed '{old_name}' to '{new_name}' successfully.")
         except FileNotFoundError:
             print(f"File or directory '{old_name}' not found.")
-    elif cmd == "listprocesses":
+    elif cmd == "listprocesses" or cmd == "showprocesses" or cmd == "processlist":
         processes = psutil.process_iter(['pid', 'name'])
         print("Running Processes:")
         for process in processes:
             print(f"    {process.info['pid']}: {process.info['name']}")
-    elif cmd.startswith("kill "):
+    elif cmd.startswith("kill ") or cmd.startswith("terminate ") or cmd.startswith("endprocess "):
         pid_to_kill = cmd.split(" ", 1)[1].strip()
         try:
             process = psutil.Process(int(pid_to_kill))
@@ -229,181 +229,69 @@ while True:
             print(f"Process with PID {pid_to_kill} terminated successfully.")
         except psutil.NoSuchProcess:
             print(f"No process found with PID {pid_to_kill}.")
-    elif cmd == "diskusage":
+    elif cmd == "diskusage" or cmd == "showdiskusage" or cmd == "storageinfo":
         disk_usage = psutil.disk_usage(base_dir)
         print("Disk Usage Information:")
         print(f"    Total Disk Space: {disk_usage.total / (1024 ** 3):.2f} GB")
         print(f"    Used Disk Space: {disk_usage.used / (1024 ** 3):.2f} GB")
         print(f"    Free Disk Space: {disk_usage.free / (1024 ** 3):.2f} GB")
         print(f"    Disk Usage Percentage: {disk_usage.percent}%")
-    elif cmd.startswith("open "):
-        file_to_open = cmd.split(" ", 1)[1].strip()
-        try:
-            sp.run(['open', file_to_open])
-        except FileNotFoundError:
-            print(f"File '{file_to_open}' not found.")
-        except PermissionError:
-            print(f"Permission denied to open '{file_to_open}'.")
-    elif cmd == "listenv":
-        for key, value in os.environ.items():
-            print(f"{key}: {value}")
-    elif cmd.startswith("setenv "):
-        env_var, env_value = map(str.strip, cmd.split(" ", 2)[1:])
-        os.environ[env_var] = env_value
-        print(f"Environment variable '{env_var}' set to '{env_value}'.")
-    elif cmd.startswith("unsetenv "):
-        env_var_to_unset = cmd.split(" ", 1)[1].strip()
-        try:
-            del os.environ[env_var_to_unset]
-            print(f"Environment variable '{env_var_to_unset}' unset successfully.")
-        except KeyError:
-            print(f"Environment variable '{env_var_to_unset}' not found.")
-    elif cmd == "listaliases":
-        print("Defined Aliases:")
-        print("    ls -> list")
-        print("    cd -> changedir")
-    elif cmd.startswith("alias "):
-        alias_definition = cmd.split(" ", 1)[1].strip()
-        alias_name, alias_command = map(str.strip, alias_definition.split("=", 1))
-        if alias_name and alias_command:
-            locals()[alias_name] = alias_command
-            print(f"Alias '{alias_name}' defined successfully.")
-        else:
-            print("Invalid alias definition. Usage: alias <name> = <command>")
-    elif cmd.startswith("unalias "):
-        alias_to_remove = cmd.split(" ", 1)[1].strip()
-        try:
-            del locals()[alias_to_remove]
-            print(f"Alias '{alias_to_remove}' removed successfully.")
-        except KeyError:
-            print(f"Alias '{alias_to_remove}' not found.")
-
-    elif cmd == "listusers":
-        try:
-            users = sp.run(['net', 'user'], capture_output=True, text=True)
-            print("List of Users:")
-            print(users.stdout)
-        except FileNotFoundError:
-            print("Command 'net' not found. This command may not work on non-Windows systems.")
-    elif cmd.startswith("userinfo "):
-        username = cmd.split(" ", 1)[1].strip()
-        try:
-            user_info = sp.run(['net', 'user', username], capture_output=True, text=True)
-            print(f"User Information for {username}:")
-            print(user_info.stdout)
-        except FileNotFoundError:
-            print("Command 'net' not found. This command may not work on non-Windows systems.")
-    elif cmd == "listgroups":
-        try:
-            groups = sp.run(['net', 'localgroup'], capture_output=True, text=True)
-            print("List of Groups:")
-            print(groups.stdout)
-        except FileNotFoundError:
-            print("Command 'net' not found. This command may not work on non-Windows systems.")
-    elif cmd.startswith("groupinfo "):
-        groupname = cmd.split(" ", 1)[1].strip()
-        try:
-            group_info = sp.run(['net', 'localgroup', groupname], capture_output=True, text=True)
-            print(f"Group Information for {groupname}:")
-            print(group_info.stdout)
-        except FileNotFoundError:
-            print("Command 'net' not found. This command may not work on non-Windows systems.")
-    elif cmd == "ipconfig":
-        try:
-            ipconfig_info = sp.run(['ipconfig'], capture_output=True, text=True)
-            print("IP Configuration Information:")
-            print(ipconfig_info.stdout)
-        except FileNotFoundError:
-            print("Command 'ipconfig' not found. This command may not work on non-Windows systems.")
-    elif cmd.startswith("ping "):
-        host = cmd.split(" ", 1)[1].strip()
-        try:
-            ping_result = sp.run(['ping', '-n', '4', host], capture_output=True, text=True)
-            print(f"Ping Result for {host}:")
-            print(ping_result.stdout)
-        except FileNotFoundError:
-            print("Command 'ping' not found. This command may not work on non-Windows systems.")
-    elif cmd.startswith("traceroute "):
-        host = cmd.split(" ", 1)[1].strip()
-        try:
-            traceroute_result = sp.run(['tracert', host], capture_output=True, text=True)
-            print(f"Traceroute Result for {host}:")
-            print(traceroute_result.stdout)
-        except FileNotFoundError:
-            print("Command 'tracert' not found. This command may not work on non-Windows systems.")
-    elif cmd == "help":
-        print("List of available commands:")
-        print("version - Display the current version of the flash shell.")
-        print("get - Run the installer script.")
-        print("cd/changedir <directory> - Change the current working directory.")
-        print("ls - List files and directories in the current directory.")
-        print("turtle - Run the programmersturtle script.")
-        print("time - Display the current time.")
-        print("date - Display the current date.")
-        print("whoami - Display the current username.")
-        print("!info - Run the flashinfo script.")
-        print("info - Run the flashiinfo script.")
-        print("cal - Run the calcshell script.")
-        print("echo - Echo a message.")
-        print("infinite - Print a given text infinitely.")
-        print("!number - Selects random number.")
-        print("uptime - Display system uptime.")
-        print("clear - Clear the terminal screen.")
-        print("listusb - List connected USB devices.")
-        print("systeminfo - Display system information.")
-        print("netstat - Display network connections.")
-        print("chmod <permission> <file_name> - Change file permissions.")
-        print("tasklist - List running processes.")
-        print("git - Run Git commands.")
-        print("shutdown - Shutdown the system.")
-        print("restart - Restart the system.")
-        print("cpuinfo - Display CPU information.")
-        print("mkdir <directory_name> - Create a new directory.")
-        print("rmdir <directory_name> - Remove an empty directory.")
-        print("rm/remove <file_name> - Remove a file.")
-        print("copy <source> <destination> - Copy a file.")
-        print("rename <old_name> <new_name> - Rename a file or directory.")
-        print("listprocesses - List running processes.")
-        print("kill <pid> - Terminate a process.")
-        print("diskusage - Display disk usage.")
-        print("open <file_name> - Open a file with the default application.")
-        print("listenv - List environment variables.")
-        print("setenv <variable> <value> - Set an environment variable.")
-        print("unsetenv <variable> - Unset an environment variable.")
-        print("listaliases - List defined aliases.")
-        print("alias <name> = <command> - Define an alias.")
-        print("unalias <name> - Remove an alias.")
-        print("listusers - List user accounts (Windows only).")
-        print("userinfo <username> - Display information about a user (Windows only).")
-        print("listgroups - List local groups (Windows only).")
-        print("groupinfo <groupname> - Display information about a group (Windows only).")
-        print("ipconfig - Display IP configuration (Windows only).")
-        print("ping <host> - Ping a host (Windows only).")
-        print("traceroute <host> - Perform a traceroute (Windows only).")
-        print("weather - Get weather information for a city.")
-        print("randomword - Get a random word. (WIP)")
-        print("download - Download a file from a URL.")
-        print("search <query> - Search Google for a query.")
-        print("translate <text> - Translate text.")
-        print("spotify - Open Spotify.")
-        print("calculate <expression> - Perform a calculation.")
-        print("checkinternet - Check internet connectivity.")
-        print("calendar - Display a calendar.")
-        print("fortune - Display a fortune.")
-        print("rolladice - Roll a six-sided dice.")
-        print("wiki <topic> - Search Wikipedia for a topic.")
-        print("quote <author> - Get a random quote by an author.")
-        print("twister - Switch to another shell variant.")
-        print("cal - Run the calcshell script.")
-        print("greet - Greet the user.")
-    elif cmd == "exit":
-        print("Exiting flash shell. Goodbye!")
+    elif cmd == "help" or cmd == "?":
+        print("Available commands:")
+        print("    version (ver, v)             - Check flash version")
+        print("    get (g, fetch)               - Update flash")
+        print("    cd [directory] (changedir)   - Change current directory")
+        print("    setbase (setbasedir, setdir) - Set base directory")
+        print("    ls (list, dirlist)           - List files in the current directory")
+        print("    turtle (programmersturtle, drawturtle) - Draw a turtle")
+        print("    time (currenttime, showtime) - Display current time")
+        print("    !number (randomnumber, randnum) - Generate a random number")
+        print("    date (currentdate, showdate) - Display current date")
+        print("    whoami (myname, username)    - Display current username")
+        print("    !info (flashinfo, information) - Display flash information")
+        print("    weather (forecast, getweather) - Check weather")
+        print("    randomword (randword, randomtext) - Display a random word")
+        print("    download (fetchfile, getfile) - Download a file")
+        print("    search [query]               - Search Google")
+        print("    translate [text]             - Translate text")
+        print("    spotify (music, playmusic)   - Open Spotify")
+        print("    calculate [expression]       - Calculate a math expression")
+        print("    checkinternet (internetstatus, pinggoogle) - Check internet status")
+        print("    calendar (showcalendar, viewcalendar) - Display calendar")
+        print("    fortune (randomfortune, showfortune) - Display a random fortune")
+        print("    rolladice (dice, rolldice)   - Roll a six-sided dice")
+        print("    wiki [topic]                 - Search Wikipedia")
+        print("    quote [author]               - Get a random quote by the author")
+        print("    info (flashiinfo, information) - Display flash information")
+        print("    twister (switchshell, changesystem) - Switch to another shell variant")
+        print("    cal (calculator, math)       - Open calculator shell")
+        print("    greet (sayhello, hellomessage) - Greet the user")
+        print("    echo (repeat, say)           - Repeat a message")
+        print("    infinite (repeattext, infiniteprint) - Print a message infinitely")
+        print("    uptime (systemuptime, showuptime) - Display system uptime")
+        print("    clear (cls, cleanscreen)     - Clear the screen")
+        print("    listusb (usblist, showusbdevices) - List connected USB devices")
+        print("    custom (customcommand, runcustom) - Run a custom command")
+        print("    systeminfo (info, showinfo)  - Display system information")
+        print("    netstat (networkstatus, shownetwork) - Display network status")
+        print("    chmod [permission] [file]    - Change file permissions")
+        print("    tasklist (processlist, showtasks) - List running processes")
+        print("    git (rungit, gitcommand)     - Run a Git command")
+        print("    shutdown (turnoff, poweroff) - Shutdown the system")
+        print("    restart (reboot, softrestart) - Restart the system")
+        print("    cpuinfo (processorinfo, showcpuinfo) - Display CPU information")
+        print("    mkdir [directory]            - Create a new directory")
+        print("    rmdir [directory]            - Remove an empty directory")
+        print("    rm [file] (remove)           - Remove a file")
+        print("    copy [source] [destination]  - Copy a file")
+        print("    rename [old_name] [new_name] - Rename a file or directory")
+        print("    listprocesses (showprocesses, processlist) - List running processes")
+        print("    kill [pid] (terminate, endprocess) - Terminate a process")
+        print("    diskusage (showdiskusage, storageinfo) - Display disk usage")
+        print("    help (?)                     - Display this help message")
+        print("    exit (quit)                  - Exit flash")
+    elif cmd == "exit" or cmd == "quit":
+        print("Exiting flash. Goodbye!")
         break
-    elif cmd == "randomword":
-        response = requests.get('https://randomword.com/')
-        if response.status_code == 200:
-            print(response.text)
-        else:
-            print(f"Failed to fetch a random word. Status code: {response.status_code}")
     else:
         print(f"Command not recognized: {cmd}")
