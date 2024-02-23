@@ -100,6 +100,8 @@ while True:
                 print(f"Downloaded successfully from {url}.")
             except FileNotFoundError:
                 print("Command 'wget' not found. Please install it to use this command.")
+        elif cmd == "hawks":
+            print("WE ARE THE BEST SCHOOL EVER!!!")
         elif cmd.startswith("search "):
             query = cmd.split(" ", 1)[1].strip()
             sp.run(['curl', f'https://www.google.com/search?q={query}'])
