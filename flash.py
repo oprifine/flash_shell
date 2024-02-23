@@ -143,8 +143,6 @@ while True:
         elif cmd == "echo" or cmd == "repeat" or cmd == "say":
             message = input("Enter a message to echo: ")
             print(f"Echo: {message}")
-        elif "fuck" in cmd:
-            print("no.")
         elif cmd == "infinite" or cmd == "repeattext" or cmd == "infiniteprint":
             while_text = input("Enter text: ")
             while True:
