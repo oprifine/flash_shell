@@ -113,7 +113,7 @@ while True:
     elif cmd == "calendar" or cmd == "showcalendar" or cmd == "viewcalendar":
         sp.run(['cal'])
     elif cmd == "fortune" or cmd == "randomfortune" or cmd == "showfortune":
-        sp.run(['fortune'])
+        print("A fun social event is in your near future.")
     elif cmd == "rolladice" or cmd == "dice" or cmd == "rolldice":
         sp.run(['shuf', '-i', '1-6', '-n', '1'])
     elif cmd.startswith("wiki "):
