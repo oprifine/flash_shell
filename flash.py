@@ -69,6 +69,8 @@ while True:
         elif cmd == "ls" or cmd == "list" or cmd == "dirlist":
             files = os.listdir(base_dir)
             print("\n".join(files))
+        elif cmd == "therapist":
+            print(f"you'll be fine")
         elif cmd == "turtle" or cmd == "programmersturtle" or cmd == "drawturtle":
             run_script('dep/programmersturtle.py')
         elif cmd == "time" or cmd == "currenttime" or cmd == "showtime":
