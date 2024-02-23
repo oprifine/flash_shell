@@ -17,7 +17,6 @@ print("Welcome to flash!")
 
 base_dir = os.getcwd()
 
-
 def run_script(script_name, *flags):
     script_path = os.path.join(base_dir, script_name)
     if os.path.exists(script_path):
@@ -25,7 +24,6 @@ def run_script(script_name, *flags):
         sp.run(command)
     else:
         print(f"Script not found: {script_name}")
-
 
 def display_system_info():
     print("CPU Information:")
@@ -38,7 +36,6 @@ def display_system_info():
     print(f"    Used Disk Space: {disk_usage.used / (1024 ** 3):.2f} GB")
     print(f"    Free Disk Space: {disk_usage.free / (1024 ** 3):.2f} GB")
     print(f"    Disk Usage Percentage: {disk_usage.percent}%")
-
 
 while True:
     cmd = input(f"{base_dir}|flash ")
