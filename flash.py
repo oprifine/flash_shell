@@ -7,7 +7,7 @@ import psutil
 import random as r
 import shutil
 import requests
-
+from bs4 import BeautifulSoup
 print("Setting shell....")
 print("Optimizing...")
 ti.sleep(0.5)
@@ -89,14 +89,16 @@ while True:
         elif cmd == "weather" or cmd == "forecast" or cmd == "getweather":
             city = input("Enter the city for weather information: ")
             sp.run(['curl', f'wttr.in/{city}'])
-        elif cmd == "randomword" or cmd == "randword" or cmd == "randomtext":
+        if cmd == "randomword" or cmd == "randword" or cmd == "randomtext":
             response = requests.get('https://randomword.com/')
-            if response.status_code == 200:
-                print(response.text)
-            else:
-                print(f"Failed to fetch a random word. Status code: {response.status_code}")
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            random_word = soup.find('div', {'id': 'random_word'}).text
+            print(random_word)
+        else:
+            print(f"Failed to fetch a random word. Status code: {response.status_code}")
         elif cmd == "download" or cmd == "fetchfile" or cmd == "getfile":
-            url = input("Enter the URL to download: ")
+        url = input("Enter the URL to download: ")
             try:
                 sp.run(['wget', url])
                 print(f"Downloaded successfully from {url}.")
