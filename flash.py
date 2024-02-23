@@ -1,12 +1,12 @@
 import os
 import subprocess as sp
 import sys
-import turtle
 import datetime as dt
 import time as ti
 import psutil
 import random as r
 import shutil
+import requests
 
 print("Setting shell....")
 print("Optimizing...")
@@ -18,18 +18,10 @@ print("Welcome to flash!")
 base_dir = os.getcwd()
 
 
-def run_script(script_name, upgrade=False, flag1=False, flag2=False, flag3=False):
+def run_script(script_name, *flags):
     script_path = os.path.join(base_dir, script_name)
     if os.path.exists(script_path):
-        command = [sys.executable, script_path]
-        if upgrade:
-            command.append("--upgrade")
-        if flag1:
-            command.append("--flag1")
-        if flag2:
-            command.append("--flag2")
-        if flag3:
-            command.append("--flag3")
+        command = [sys.executable, script_path, *flags]
         sp.run(command)
     else:
         print(f"Script not found: {script_name}")
@@ -52,9 +44,9 @@ while True:
     cmd = input(f"{base_dir}|flash ")
 
     if cmd == "version":
-        run_script('databases/version.py', upgrade=True, flag1=True, flag2=True, flag3=True)
+        run_script('databases/version.py', "--upgrade", "--flag1", "--flag2", "--flag3")
     elif cmd == "get":
-        run_script('databases/installer.py', upgrade=True, flag1=True, flag2=True, flag3=True)
+        run_script('databases/installer.py', "--upgrade", "--flag1", "--flag2", "--flag3")
     elif cmd.startswith("cd ") or cmd.startswith("changedir "):
         new_path = cmd.split(" ", 1)[1].strip()
         full_path = os.path.join(base_dir, new_path)
@@ -93,7 +85,11 @@ while True:
         city = input("Enter the city for weather information: ")
         sp.run(['curl', f'wttr.in/{city}'])
     elif cmd == "randomword":
-        sp.run(['curl', 'randomword.com'])
+        response = requests.get('https://randomword.com/')
+        if response.status_code == 200:
+            print(response.text)
+        else:
+            print(f"Failed to fetch a random word. Status code: {response.status_code}")
     elif cmd == "download":
         url = input("Enter the URL to download: ")
         try:
@@ -281,6 +277,7 @@ while True:
             print(f"Alias '{alias_to_remove}' removed successfully.")
         except KeyError:
             print(f"Alias '{alias_to_remove}' not found.")
+
     elif cmd == "listusers":
         try:
             users = sp.run(['net', 'user'], capture_output=True, text=True)
@@ -356,70 +353,57 @@ while True:
         print("systeminfo - Display system information.")
         print("netstat - Display network connections.")
         print("chmod <permission> <file_name> - Change file permissions.")
-        print("tasklist - Display a list of running processes.")
-        print("git - Run a Git command.")
-        print("c, java, cpp, bf - Emulators for these languages. C, Java, C++, and .bf")
-        print("shutdown - Shut down the system.")
+        print("tasklist - List running processes.")
+        print("git - Run Git commands.")
+        print("shutdown - Shutdown the system.")
         print("restart - Restart the system.")
         print("cpuinfo - Display CPU information.")
-        print("mkdir <directory> - Create a new directory.")
-        print("rmdir <directory> - Remove an empty directory.")
-        print("rm/remove <file> - Remove a file.")
+        print("mkdir <directory_name> - Create a new directory.")
+        print("rmdir <directory_name> - Remove an empty directory.")
+        print("rm/remove <file_name> - Remove a file.")
         print("copy <source> <destination> - Copy a file.")
-        print("rename <old_name> <new_name> - Rename a file.")
+        print("rename <old_name> <new_name> - Rename a file or directory.")
         print("listprocesses - List running processes.")
-        print("kill <pid> - Terminate a process by PID.")
-        print("diskusage - Display disk usage information.")
-        print("open <file> - Open a file.")
+        print("kill <pid> - Terminate a process.")
+        print("diskusage - Display disk usage.")
+        print("open <file_name> - Open a file with the default application.")
         print("listenv - List environment variables.")
         print("setenv <variable> <value> - Set an environment variable.")
         print("unsetenv <variable> - Unset an environment variable.")
         print("listaliases - List defined aliases.")
         print("alias <name> = <command> - Define an alias.")
         print("unalias <name> - Remove an alias.")
-        print("listusers - List user accounts.")
-        print("userinfo <username> - Display information about a user.")
-        print("listgroups - List local groups.")
-        print("groupinfo <groupname> - Display information about a group.")
-        print("ipconfig - Display IP configuration.")
-        print("ping <host> - Ping a host.")
-        print("traceroute <host> - Perform a traceroute to a host.")
-        print("help - Display this help message.")
-        print("exit - Exit the flash shell.")
-        print("sourcecode - Display the source code of the flash shell.")
-        print("download <url> - Downloads from the internet.")
-        print("cowsay <input> - The cow says something.")
-        print("nmap <target/ip address> - Finds the location?")
-        print("adduser <username> - Adds a user to the system.")
-        print("publicip - Finds your public ip (e.g 69.696.666.66)")
-        print("randomword - Prints a random word.")
-        print("search <query> - Searches Google for the query.")
-        print("translate <text> - Translates the text to English.")
-        print("spotify - Opens Spotify.")
-        print("calculate <expression> - Evaluates a mathematical expression.")
-        print("checkinternet - Checks internet connection.")
-        print("calendar - Displays calendar.")
-        print("fortune - Displays a fortune.")
-        print("rolladice - Rolls a six-sided dice.")
-        print("wiki <topic> - Opens Wikipedia page for the topic.")
-        print("quote <author> - Displays a random quote by the author.")
+        print("listusers - List user accounts (Windows only).")
+        print("userinfo <username> - Display information about a user (Windows only).")
+        print("listgroups - List local groups (Windows only).")
+        print("groupinfo <groupname> - Display information about a group (Windows only).")
+        print("ipconfig - Display IP configuration (Windows only).")
+        print("ping <host> - Ping a host (Windows only).")
+        print("traceroute <host> - Perform a traceroute (Windows only).")
+        print("weather - Get weather information for a city.")
+        print("randomword - Get a random word. (WIP)")
+        print("download - Download a file from a URL.")
+        print("search <query> - Search Google for a query.")
+        print("translate <text> - Translate text.")
+        print("spotify - Open Spotify.")
+        print("calculate <expression> - Perform a calculation.")
+        print("checkinternet - Check internet connectivity.")
+        print("calendar - Display a calendar.")
+        print("fortune - Display a fortune.")
+        print("rolladice - Roll a six-sided dice.")
+        print("wiki <topic> - Search Wikipedia for a topic.")
+        print("quote <author> - Get a random quote by an author.")
         print("twister - Switch to another shell variant.")
-        print("greet - Greets the user.")
+        print("cal - Run the calcshell script.")
+        print("greet - Greet the user.")
     elif cmd == "exit":
-        print("Exiting flash...")
+        print("Exiting flash shell. Goodbye!")
         break
-    elif cmd == "sourcecode":
-        run_script('dep/sourcecode.py')
-    elif cmd.startswith("cowsay "):
-        message = cmd.split(" ", 1)[1].strip()
-        sp.run(['cowsay', message])
-    elif cmd.startswith("nmap "):
-        target = cmd.split(" ", 1)[1].strip()
-        sp.run(['nmap', target])
-    elif cmd.startswith("adduser "):
-        username = cmd.split(" ", 1)[1].strip()
-        sp.run(['net', 'user', username])
-    elif cmd == "publicip":
-        sp.run(['curl', 'ifconfig.me'])
+    elif cmd == "randomword":
+        response = requests.get('https://randomword.com/')
+        if response.status_code == 200:
+            print(response.text)
+        else:
+            print(f"Failed to fetch a random word. Status code: {response.status_code}")
     else:
-        print(f"Command not found: {cmd}")
+        print(f"Command not recognized: {cmd}")
