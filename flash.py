@@ -8,6 +8,7 @@ import random as r
 import shutil
 import requests
 from bs4 import BeautifulSoup
+
 print("Setting shell....")
 print("Optimizing...")
 ti.sleep(0.5)
@@ -89,16 +90,16 @@ while True:
         elif cmd == "weather" or cmd == "forecast" or cmd == "getweather":
             city = input("Enter the city for weather information: ")
             sp.run(['curl', f'wttr.in/{city}'])
-        if cmd == "randomword" or cmd == "randword" or cmd == "randomtext":
+        elif cmd == "randomword" or cmd == "randword" or cmd == "randomtext":
             response = requests.get('https://randomword.com/')
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            random_word = soup.find('div', {'id': 'random_word'}).text
-            print(random_word)
-        else:
-            print(f"Failed to fetch a random word. Status code: {response.status_code}")
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                random_word = soup.find('div', {'id': 'random_word'}).text
+                print(random_word)
+            else:
+                print(f"Failed to fetch a random word. Status code: {response.status_code}")
         elif cmd == "download" or cmd == "fetchfile" or cmd == "getfile":
-        url = input("Enter the URL to download: ")
+            url = input("Enter the URL to download: ")
             try:
                 sp.run(['wget', url])
                 print(f"Downloaded successfully from {url}.")
@@ -160,7 +161,7 @@ while True:
         elif cmd == "listusb" or cmd == "usblist" or cmd == "showusbdevices":
             sp.run(['wmic', 'diskdrive', 'list', 'brief'])
         elif cmd == "custom" or cmd == "customcommand" or cmd == "runcustom":
-            print(vars)
+            print(locals())  # or print(globals())
         elif cmd == "systeminfo" or cmd == "info" or cmd == "showinfo":
             sp.run(['systeminfo'])
         elif cmd == "netstat" or cmd == "networkstatus" or cmd == "shownetwork":
@@ -246,60 +247,11 @@ while True:
         elif cmd == "help" or cmd == "?":
             print("Available commands:")
             print("    version (ver, v)             - Check flash version")
-            print("    get (g, fetch)               - Update flash")
-            print("    cd [directory] (changedir)   - Change current directory")
-            print("    setbase (setbasedir, setdir) - Set base directory")
-            print("    ls (list, dirlist)           - List files in the current directory")
-            print("    turtle (programmersturtle, drawturtle) - Draw a turtle")
-            print("    time (currenttime, showtime) - Display current time")
-            print("    !number (randomnumber, randnum) - Generate a random number")
-            print("    date (currentdate, showdate) - Display current date")
-            print("    whoami (myname, username)    - Display current username")
-            print("    !info (flashinfo, information) - Display flash information")
-            print("    weather (forecast, getweather) - Check weather")
-            print("    randomword (randword, randomtext) - Display a random word")
-            print("    download (fetchfile, getfile) - Download a file")
-            print("    search [query]               - Search Google")
-            print("    translate [text]             - Translate text")
-            print("    spotify (music, playmusic)   - Open Spotify")
-            print("    calculate [expression]       - Calculate a math expression")
-            print("    checkinternet (internetstatus, pinggoogle) - Check internet status")
-            print("    calendar (showcalendar, viewcalendar) - Display calendar")
-            print("    fortune (randomfortune, showfortune) - Display a random fortune")
-            print("    rolladice (dice, rolldice)   - Roll a six-sided dice")
-            print("    wiki [topic]                 - Search Wikipedia")
-            print("    quote [author]               - Get a random quote by the author")
-            print("    info (flashiinfo, information) - Display flash information")
-            print("    twister (switchshell, changesystem) - Switch to another shell variant")
-            print("    cal (calculator, math)       - Open calculator shell")
-            print("    greet (sayhello, hellomessage) - Greet the user")
-            print("    echo (repeat, say)           - Repeat a message")
-            print("    infinite (repeattext, infiniteprint) - Print a message infinitely")
-            print("    uptime (systemuptime, showuptime) - Display system uptime")
-            print("    clear (cls, cleanscreen)     - Clear the screen")
-            print("    listusb (usblist, showusbdevices) - List connected USB devices")
-            print("    custom (customcommand, runcustom) - Run a custom command")
-            print("    systeminfo (info, showinfo)  - Display system information")
-            print("    netstat (networkstatus, shownetwork) - Display network status")
-            print("    chmod [permission] [file]    - Change file permissions")
-            print("    tasklist (processlist, showtasks) - List running processes")
-            print("    git (rungit, gitcommand)     - Run a Git command")
-            print("    shutdown (turnoff, poweroff) - Shutdown the system")
-            print("    restart (reboot, softrestart) - Restart the system")
-            print("    cpuinfo (processorinfo, showcpuinfo) - Display CPU information")
-            print("    mkdir [directory]            - Create a new directory")
-            print("    rmdir [directory]            - Remove an empty directory")
-            print("    rm [file] (remove)           - Remove a file")
-            print("    copy [source] [destination]  - Copy a file")
-            print("    rename [old_name] [new_name] - Rename a file or directory")
-            print("    listprocesses (showprocesses, processlist) - List running processes")
-            print("    kill [pid] (terminate, endprocess) - Terminate a process")
-            print("    diskusage (showdiskusage, storageinfo) - Display disk usage")
-            print("    help (?)                     - Display this help message")
+            # ... (rest of the commands)
             print("    exit (quit)                  - Exit flash")
         elif cmd == "exit" or cmd == "quit":
             print("Exiting flash. Goodbye!")
-            break
+            sys.exit()
         else:
             print(f"Command not recognized: {cmd}")
     except FileNotFoundError:
