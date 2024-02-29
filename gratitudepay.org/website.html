@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oprifine's Pyrojects</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #e0b7b7;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #000000;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var downloadButton = document.getElementById('downloadFlash');
+            downloadButton.addEventListener('click', function() {
+                var downloadLink = document.createElement('a');
+                downloadLink.href = 'https://github.com/oprifine/flash_shell/raw/shell/flash_shell.zip';
+                downloadLink.download = 'flash_shell.zip';
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            });
+
+            var viewGitButton = document.getElementById('viewFlash');
+            viewGitButton.addEventListener('click', function() {
+                window.location.href = 'https://github.com/oprifine/flash_shell/';
+            });
+
+            var releaseFlashButton = document.getElementById('releaseFlash');
+            releaseFlashButton.addEventListener('click', function() {
+                window.location.href = 'https://github.com/oprifine/flash_shell/';
+            });
+
+            var inDevDNLDButton = document.getElementById('inDevDNLD');
+            inDevDNLDButton.addEventListener('click', function() {
+                window.location.href = 'https://github.com/oprifine/flash_shell/';
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Welcome to Oprifine's Home Downloader!</h1>
+
+    <p>Click the button to download everything in the Flash shell:</p>
+    <button id="downloadFlash">Download Source Code/Release (flash_shell)</button>
+    <button id="viewFlash">View GitHub repository (flash_shell)</button>
+    <button id="releaseFlash">Download Release Version (WIP)</button>
+    <button id="inDevDNLD">Download Beta/Alpha versions</button>
+
+</body>
+</html>
