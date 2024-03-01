@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Selection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Look here to see my software I use.</h1>
+
+    <p>Software down here!
+        <button id="VSC">VS Code (if you want an alternative, choose VSCodium.)</button>
+        <button id="GEA">Geany (if you want an alternative, choose Thonny.)</button>
+    </p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var vsCodeButton = document.getElementById('VSC');
+            var geanyButton = document.getElementById('GEA');
+
+            vsCodeButton.addEventListener('click', function() {
+                // Redirect to the VS Code website or any other URL you prefer
+                window.location.href = 'https://code.visualstudio.com/';
+            });
+
+            geanyButton.addEventListener('click', function() {
+                // Redirect to the Geany website or any other URL you prefer
+                window.location.href = 'https://www.geany.org/';
+            });
+        });
+    </script>
+</body>
+</html>

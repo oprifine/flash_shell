@@ -9,7 +9,7 @@
             font-family: 'Arial', sans-serif;
             margin: 20px;
             padding: 0;
-            background-color: #e0b7b7;
+            background-color: #fdf3f3;
         }
         h1 {
             color: #333;
@@ -29,7 +29,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #000000;
+            background-color: #8b7ff8;
         }
     </style>
     <script>
@@ -59,7 +59,26 @@
             inDevDNLDButton.addEventListener('click', function() {
                 window.location.href = 'https://github.com/oprifine/flash_shell/';
             });
+
+            // Prompt the user for a password
+            var password = prompt('Enter the password:');
+            
+            // Check if the password is correct
+            if (password === 'flash.[]') {
+                // Password is correct, enable the download buttons
+                enableDownloadButtons();
+            } else {
+                // Password is incorrect, inform the user
+                alert('Incorrect password. Access denied.');
+            }
         });
+
+        function enableDownloadButtons() {
+            var inDevDNLDButton = document.getElementById('inDevDNLD');
+            inDevDNLDButton.addEventListener('click', function() {
+                window.location.href = 'https://github.com/oprifine/flash_shell/';
+            });
+        }
     </script>
 </head>
 <body>
@@ -71,6 +90,6 @@
     <button id="viewFlash">View GitHub repository (flash_shell)</button>
     <button id="releaseFlash">Download Release Version (WIP)</button>
     <button id="inDevDNLD">Download Beta/Alpha versions</button>
-
+    <button id="softWare">Click here to see my applications that I used to make this</button>
 </body>
 </html>
