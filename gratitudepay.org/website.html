@@ -60,25 +60,13 @@
                 window.location.href = 'https://github.com/oprifine/flash_shell/';
             });
 
-            // Prompt the user for a password
-            var password = prompt('Enter the password:');
-            
-            // Check if the password is correct
-            if (password === 'flash.[]') {
-                // Password is correct, enable the download buttons
-                enableDownloadButtons();
-            } else {
-                // Password is incorrect, inform the user
-                alert('Incorrect password. Access denied.');
+            function enableDownloadButtons() {
+                var inDevDNLDButton = document.getElementById('inDevDNLD');
+                inDevDNLDButton.addEventListener('click', function() {
+                    window.location.href = 'https://github.com/oprifine/flash_shell/';
+                });
             }
         });
-
-        function enableDownloadButtons() {
-            var inDevDNLDButton = document.getElementById('inDevDNLD');
-            inDevDNLDButton.addEventListener('click', function() {
-                window.location.href = 'https://github.com/oprifine/flash_shell/';
-            });
-        }
     </script>
 </head>
 <body>
