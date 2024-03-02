@@ -1,4 +1,5 @@
 import os
+from base64 import standard_b64decode
 import subprocess as sp
 import sys
 import datetime as dt
@@ -8,6 +9,11 @@ import random as r
 import shutil
 import requests
 from bs4 import BeautifulSoup
+import webbrowser
+import http.server
+import socketserver
+import socket
+
 
 print("Setting shell....")
 print("Optimizing...")
@@ -29,6 +35,10 @@ def run_script(script_name, *flags):
             print(f"Command not found. Please install the necessary tool or check the command.")
     else:
         print(f"Script not found: {script_name}")
+        
+def exefun():
+    print(f"Executing {function}...")
+    return
 
 
 def display_system_info():
@@ -67,7 +77,25 @@ while True:
                 print(f"Base directory set to: {base_dir}")
             else:
                 print(f"Invalid directory: {new_base_dir}")
-        elif cmd == "ls" or cmd == "list" or cmd == "dirlist":
+        elif cmd == "pyfunct":
+            try:
+                function = input("What Python function do you want to use?")
+            except EOFError:
+                print("The function didn't work..")
+
+            if function.strip() == "":
+                print("No function specified")
+            elif function.lower() == "import":
+                try:
+                    module = input("What module would you like to import?")
+                    imported_module = __import__(module)
+                    print(f"Module '{module}' imported successfully.")
+                    exefun()  # Call the function here
+                except ImportError as e:
+                    print(f"Error importing module '{module}': {e}")
+            else:
+                print(f"Executing {function}...")
+        if cmd == "ls" or cmd == "list" or cmd == "dirlist":
             files = os.listdir(base_dir)
             print("\n".join(files))
         elif cmd == "therapist":
@@ -108,9 +136,13 @@ while True:
         elif cmd == "hawks":
             print("WE ARE THE BEST SCHOOL EVER!!!")
         elif cmd.startswith("search "):
-            query = cmd.split(" ", 1)[1].strip()
-            sp.run(['curl', f'https://www.google.com/search?q={query}'])
-        elif cmd.startswith("translate "):
+            try:
+                query = cmd.split(" ", 1)[1].strip()
+                search_url = f'https://www.google.com/search?q={query}'
+                webbrowser.open(search_url)
+            except requests.RequestException as e:
+                print(f"Error during the search: {e}")
+        if cmd.startswith("translate "):
             text_to_translate = cmd.split(" ", 1)[1].strip()
             sp.run(['trans', text_to_translate])
         elif cmd == "spotify" or cmd == "music" or cmd == "playmusic":
@@ -128,8 +160,24 @@ while True:
             sp.run(['shuf', '-i', '1-6', '-n', '1'])
         elif cmd.startswith("wiki "):
             topic = cmd.split(" ", 1)[1].strip()
-            sp.run(['curl', f'https://en.wikipedia.org/wiki/{topic}'])
-        elif cmd.startswith("quote "):
+            searchurl = f'https://en.wikipedia.org/wiki/{topic}'
+    
+        try:
+            response = requests.get(searchurl)
+        
+            if response.status_code == 200:
+                try:
+                    print(f"Search results for '{topic}':")
+                # You may want to parse the HTML for better formatting (d9)
+                    webbrowser.open(searchurl)
+                except Exception as e:
+                    print(f"Error processing search results: {e}")
+            else:
+                print(f"Failed to perform the search. Status code: {response.status_code}")
+
+        except requests.RequestException as e:
+            print(f"Error during the search: {e}")
+        if cmd.startswith("quote "):
             author = cmd.split(" ", 1)[1].strip()
             sp.run(['curl', f'https://api.quotable.io/random?author={author}'])
         elif cmd == "info" or cmd == "flashiinfo" or cmd == "information":
@@ -142,6 +190,9 @@ while True:
                 sp.run(['python', 'flash.py'])
         elif cmd == "cal" or cmd == "calculator" or cmd == "math":
             run_script('dep/calcshell.py')
+        elif cmd == "webs" or cmd == "websource":
+        # Open a local HTML file in the default web browser
+            webbrowser.open('http://127.0.0.1:5500/gratitudepay.org/website.html')  # Adjust the URL as needed
         elif cmd == "greet" or cmd == "sayhello" or cmd == "hellomessage":
             name = input("What is your name?")
             print("Hello,", name, "!")

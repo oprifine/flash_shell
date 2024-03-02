@@ -45,21 +45,27 @@
     <p>Software down here!
         <button id="VSC">VS Code (if you want an alternative, choose VSCodium.)</button>
         <button id="GEA">Geany (if you want an alternative, choose Thonny.)</button>
+        <button id="softBack">Go back to the Downloader</button>
     </p>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var vsCodeButton = document.getElementById('VSC');
             var geanyButton = document.getElementById('GEA');
-
+            var softBackButton = document.getElementById('softBack');
+    
             vsCodeButton.addEventListener('click', function() {
                 // Redirect to the VS Code website or any other URL you prefer
                 window.location.href = 'https://code.visualstudio.com/';
             });
-
+    
             geanyButton.addEventListener('click', function() {
                 // Redirect to the Geany website or any other URL you prefer
                 window.location.href = 'https://www.geany.org/';
+            });
+    
+            softBackButton.addEventListener('click', function() {
+                window.location.href = 'website.html';  // Redirect to softWare.html
             });
         });
     </script>
