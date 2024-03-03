@@ -13,6 +13,7 @@ import webbrowser
 import http.server
 import socketserver
 import socket
+import matplotlib.pyplot as plt
 
 
 print("Setting shell....")
@@ -39,6 +40,21 @@ def run_script(script_name, *flags):
 def exefun():
     print(f"Executing {function}...")
     return
+
+def create_graph():
+    # Get user input for the graph title
+    graph_title = input("Enter graph title: ")
+
+    # Get user input for x and y coordinates
+    x_values = list(map(float, input("Enter x values (comma-separated): ").split(',')))
+    y_values = list(map(float, input("Enter y values (comma-separated): ").split(',')))
+
+    # Plot the graph
+    plt.plot(x_values, y_values, marker='o')
+    plt.title(graph_title)
+    plt.xlabel("X-axis")
+    plt.ylabel("Y-axis")
+    plt.grid(True)
 
 
 def display_system_info():
@@ -105,6 +121,9 @@ while True:
         elif cmd == "time" or cmd == "currenttime" or cmd == "showtime":
             current_time = dt.datetime.now().strftime("%H:%M:%S")
             print(f"Current time: {current_time}")
+        elif cmd == "graph" or cmd == "plan":
+            create_graph()
+            plt.show()
         elif cmd == "!number" or cmd == "randomnumber" or cmd == "randnum":
             random_number = r.randint(0, 100)
             print(random_number)
@@ -209,13 +228,17 @@ while True:
                 print(f"Error: {e}")
         elif cmd == "tasklist" or cmd == "processlist" or cmd == "showtasks":
             sp.run(['tasklist'])
-        elif cmd == "git" or cmd == "rungit" or cmd == "gitcommand":
-            git_command = input("Enter Git command: ")
-            sp.run(['git', git_command])
-        elif cmd == "shutdown" or cmd == "turnoff" or cmd == "poweroff":
+        # Check if the command starts with 'git'
+        if cmd == 'git' or cmd == "gitcmd":
+			cmd = input.strip()()
+        if cmd == "shutdown" or cmd == "turnoff" or cmd == "poweroff":
             sp.run(['shutdown', '/s'])
         elif cmd == "restart" or cmd == "reboot" or cmd == "softrestart":
             sp.run(['shutdown', '/r'])
+        elif cmd == "inst" or cmd == "instantshutdown":
+            sp.run(['shutdown', '/s', '00'])
+        elif cmd == "insrs" or cmd == "instantrestart":
+            sp.run(['shutdown', '/r' '00'])
         elif cmd == "cpuinfo" or cmd == "processorinfo" or cmd == "showcpuinfo":
             print("CPU Information:")
             print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
@@ -330,7 +353,8 @@ while True:
             print("    kill [pid] (terminate, endprocess) - Terminate a process")
             print("    diskusage (showdiskusage, storageinfo) - Display disk usage")
             print("    help (?)                     - Display this help message")
-            print("    exit (quit)                  - Exit flash")           
+            print("    exit (quit)                  - Exit flash") 
+            print("    graph (plan)                 - Create a graph")          
         elif cmd == "exit" or cmd == "quit":
             print("Exiting flash. Goodbye!")
             sys.exit()
