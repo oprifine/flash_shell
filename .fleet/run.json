@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "pyconfig",
+            "file": "$USER_HOME$/AppData/Local/Programs/Python/Python312/python.exe",
+            "arguments": []
+        }
+    ]
+}

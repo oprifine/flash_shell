@@ -158,25 +158,7 @@ while True:
             print("A fun social event is in your near future.")
         elif cmd == "rolladice" or cmd == "dice" or cmd == "rolldice":
             sp.run(['shuf', '-i', '1-6', '-n', '1'])
-        elif cmd.startswith("wiki "):
-            topic = cmd.split(" ", 1)[1].strip()
-            searchurl = f'https://en.wikipedia.org/wiki/{topic}'
-    
-        try:
-            response = requests.get(searchurl)
-        
-            if response.status_code == 200:
-                try:
-                    print(f"Search results for '{topic}':")
-                # You may want to parse the HTML for better formatting (d9)
-                    webbrowser.open(searchurl)
-                except Exception as e:
-                    print(f"Error processing search results: {e}")
-            else:
-                print(f"Failed to perform the search. Status code: {response.status_code}")
 
-        except requests.RequestException as e:
-            print(f"Error during the search: {e}")
         if cmd.startswith("quote "):
             author = cmd.split(" ", 1)[1].strip()
             sp.run(['curl', f'https://api.quotable.io/random?author={author}'])
@@ -353,6 +335,6 @@ while True:
             print("Exiting flash. Goodbye!")
             sys.exit()
         else:
-            print(f"Command not recognized: {cmd}")
+            print(f"Command not recognized / executed successfully: {cmd}")
     except FileNotFoundError:
         print("No file found. You may need to install it.")
