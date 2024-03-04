@@ -75,7 +75,7 @@ while True:
     try:
         if cmd == "version" or cmd == "ver" or cmd == "v":
             run_script('databases/version.py', "--upgrade", "--flag1", "--flag2", "--flag3")
-        elif cmd == "get" or cmd == "g" or cmd == "fetch":
+        elif cmd == "get" or cmd == "g" or cmd == "fetch" or cmd.startswith("pip") or cmd.startswith("apt" or "sudo" or "yum"):
             run_script('databases/installer.py', "--upgrade", "--flag1", "--flag2", "--flag3")
         elif cmd.startswith("cd ") or cmd.startswith("changedir "):
             new_path = cmd.split(" ", 1)[1].strip()
@@ -216,6 +216,8 @@ while True:
             print(locals())  # or print(globals())
         elif cmd == "systeminfo" or cmd == "info" or cmd == "showinfo":
             sp.run(['systeminfo'])
+        elif cmd == "h" or cmd == "hist" or cmd == "history":
+            sp.run(['h']) or sp.run(['history'])
         elif cmd == "netstat" or cmd == "networkstatus" or cmd == "shownetwork":
             sp.run(['netstat', '-a'])
         elif cmd.startswith("chmod "):
