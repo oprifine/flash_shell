@@ -229,8 +229,9 @@ while True:
         elif cmd == "tasklist" or cmd == "processlist" or cmd == "showtasks":
             sp.run(['tasklist'])
         # Check if the command starts with 'git'
-        if cmd == 'git' or cmd == "gitcmd":
-			cmd = input.strip()()
+        if cmd == "git" or cmd == "gitcmd" or cmd == "gitcommand":
+            gitc = input("Enter Git command (and a URL if necessary.)")
+            sp.run(['git', f'{gitc}'])
         if cmd == "shutdown" or cmd == "turnoff" or cmd == "poweroff":
             sp.run(['shutdown', '/s'])
         elif cmd == "restart" or cmd == "reboot" or cmd == "softrestart":
