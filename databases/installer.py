@@ -1,6 +1,14 @@
 import subprocess as sp
+import time as ti
 
-print("Welcome to the flash package installer!")
+def anislash():
+    symbols = ['/', '-', '\\', '|']
+    for i in range(20):  # Change the range to control the number of rotations
+        for symbol in symbols:
+            print(symbol, end='\r')  # Print the symbol and move the cursor back to the start of the line
+            ti.sleep(0.1)  # Adjust the sleep duration to control the speed of rotation
+
+print("Welcome to the package installer!")
 mng = input("What manager do you use?\n"
              "|apt| Linux package manager.\n"
              "|yum| Linux package manager.\n"
@@ -36,6 +44,8 @@ else:
     exit()
 
 try:
+    print("Running the package installation process. Please wait...")
+    anislash()  # Start the progress animation
     # Run the command using subprocess
     sp.run(command, shell=True, check=True)
     print(f"{pkg} has been successfully installed/uninstalled using {mng}.")

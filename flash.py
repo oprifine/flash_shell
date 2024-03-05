@@ -55,13 +55,75 @@ def create_graph():
     plt.xlabel("X-axis")
     plt.ylabel("Y-axis")
     plt.grid(True)
+    
+def bf():
+    tape = [0] * 30000
+    pointer = 0
+    output = []
+
+    stack = []
+    loop_start = {}
+
+    i = 0
+    while i < len(code):
+        command = code[i]
+
+        if command == '>':
+            pointer += 1
+        elif command == '<':
+            pointer -= 1
+        elif command == '+':
+            tape[pointer] += 1
+        elif command == '-':
+            tape[pointer] -= 1
+        elif command == '.':
+            output.append(chr(tape[pointer]))
+        elif command == ',':
+            # Input not implemented in this example
+            pass
+        elif command == '[':
+            stack.append(i)
+        elif command == ']':
+            if tape[pointer] == 0:
+                stack.pop()
+            else:
+                if i not in loop_start:
+                    loop_start[i] = stack.pop()
+                else:
+                    i = loop_start[i] - 1
+
+        i += 1
+
+    return ''.join(output)
+
+cmd = input("Enter brainf*ck code: ")
+
+if cmd == "exit":
+    for i in range (1):
+        break
+    else:
+        pass
+
+elif cmd.startswith("bf "):
+    code = cmd[3:]
+    result = bf()(code)
+    print("Output:")
+    print(result)
 
 
 def display_system_info():
     print("CPU Information:")
     print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
     print(f"    CPU Usage: {psutil.cpu_percent()}%")
+    
+def ansh():
+    symbols = ['/', '-', '\\', '|']
+    for i in range(20):  # Change the range to control the number of rotations
+        for symbol in symbols:
+            print(symbol, end='\r')  # Print the symbol and move the cursor back to the start of the line
+            ti.sleep(0.1)  # Adjust the sleep duration to control the speed of rotation
 
+def c():
     disk_usage = psutil.disk_usage(base_dir)
     print("\nDisk Usage Information:")
     print(f"    Total Disk Space: {disk_usage.total / (1024 ** 3):.2f} GB")
@@ -118,6 +180,8 @@ while True:
             print(f"you'll be fine")
         elif cmd == "turtle" or cmd == "programmersturtle" or cmd == "drawturtle":
             run_script('dep/programmersturtle.py')
+        elif cmd == "bf" or cmd == "brainfuck":
+            bf()
         elif cmd == "time" or cmd == "currenttime" or cmd == "showtime":
             current_time = dt.datetime.now().strftime("%H:%M:%S")
             print(f"Current time: {current_time}")
@@ -127,6 +191,8 @@ while True:
         elif cmd == "!number" or cmd == "randomnumber" or cmd == "randnum":
             random_number = r.randint(0, 100)
             print(random_number)
+        elif cmd == "anislash" or cmd == "animatedslash":
+            ansh()
         elif cmd == "date" or cmd == "currentdate" or cmd == "showdate":
             current_date = dt.datetime.now().strftime("%Y-%m-%d")
             print(f"Current date: {current_date}")

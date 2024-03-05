@@ -1,5 +1,13 @@
 import math
 
+def ansh():
+    symbols = ['|', '/', '-', '\\']
+    for _ in range(10):  # Change the range to control the duration of the animation
+        for symbol in symbols:
+            print(f"Calculating {symbol}", end='\r')
+            ti.sleep(0.1)  # Adjust the sleep duration to control the speed of animation
+
+
 GOLDEN_RATIO = (1 + math.sqrt(5)) / 2
 PI = math.pi
 EULER_NUMBER = math.e
