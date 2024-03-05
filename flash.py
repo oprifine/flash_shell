@@ -8,7 +8,7 @@ import psutil
 import random as r
 import shutil
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 import webbrowser
 import http.server
 import socketserver
