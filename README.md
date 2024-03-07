@@ -31,3 +31,5 @@ Once you are in the correct directory, you can execute the Flash shell script us
 python flash.py
 ----------------
 Note: Make sure you have Python installed on your system. If not, you can download and install it from the official Python website (https://www.python.org/downloads/).
+
+A standalone will be made when it releases. (MACOS AND WINDOWS) For Linux, you will have to wait a little.
