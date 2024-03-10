@@ -17,8 +17,9 @@ import matplotlib.pyplot as plt
 
 
 print("Setting shell....")
+set()
 print("Optimizing...")
-ti.sleep(0.5)
+set()
 print("Done loading!")
 
 print("Welcome to flash!")
@@ -36,6 +37,10 @@ def run_script(script_name, *flags):
             print(f"Command not found. Please install the necessary tool or check the command.")
     else:
         print(f"Script not found: {script_name}")
+        
+def set():
+    ti.sleep(0.9)
+    return
         
 def exefun():
     print(f"Executing {function}...")
@@ -124,7 +129,9 @@ while True:
         if cmd == "ls" or cmd == "list" or cmd == "dirlist":
             files = os.listdir(base_dir)
             print("\n".join(files))
-        elif cmd == "therapist":
+        elif cmd == "malloc" or cmd == "memoryallocate":
+            
+        if cmd == "therapist":
             print(f"you'll be fine")
         elif cmd == "bf" or cmd == "brainfuck":
             sp.run(['python', f'C:/Users/{os.getlogin()}/.flash/flash_shell/dep/bf.py'])
