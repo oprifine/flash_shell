@@ -1,4 +1,4 @@
-def run_brainfuck(code):
+def bf():
     tape = [0] * 30000
     pointer = 0
     output = []
@@ -6,6 +6,8 @@ def run_brainfuck(code):
     stack = []
     loop_start = {}
 
+    code = input("Enter BF code: ")
+    
     i = 0
     while i < len(code):
         command = code[i]
@@ -38,14 +40,10 @@ def run_brainfuck(code):
 
     return ''.join(output)
 
-while True:
-    cmd = input("Enter brainf*ck code: ")
+cmd = input("Enter brainf*ck code: ")
 
-    if cmd == "exit":
+if cmd == "exit":
+    for i in range (1):
         break
-
-    elif cmd.startswith("bf "):
-        code = cmd[3:]
-        result = run_brainfuck(code)
-        print("Output:")
-        print(result)
+    else:
+        pass
