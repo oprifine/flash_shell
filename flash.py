@@ -126,14 +126,12 @@ while True:
             print("\n".join(files))
         elif cmd == "therapist":
             print(f"you'll be fine")
-        elif cmd == "turtle" or cmd == "programmersturtle" or cmd == "drawturtle":
-            run_script('dep/programmersturtle.py')
         elif cmd == "bf" or cmd == "brainfuck":
-            sp.run(['python' '/dep/bf.py'])
+            sp.run(['python', f'C:/Users/{os.getlogin()}/.flash/flash_shell/dep/bf.py'])
         elif cmd == "time" or cmd == "currenttime" or cmd == "showtime":
             current_time = dt.datetime.now().strftime("%H:%M:%S")
             print(f"Current time: {current_time}")
-        elif cmd == "graph" or cmd == "plan":
+        elif cmd == "place" or cmd == "plot":
             create_graph()
             plt.show()
         elif cmd == "!number" or cmd == "randomnumber" or cmd == "randnum":
@@ -178,8 +176,6 @@ while True:
         if cmd.startswith("translate "):
             text_to_translate = cmd.split(" ", 1)[1].strip()
             sp.run(['trans', text_to_translate])
-        elif cmd == "spotify" or cmd == "music" or cmd == "playmusic":
-            sp.run(['spotify'])
         elif cmd.startswith("calculate "):
             expression = cmd.split(" ", 1)[1].strip()
             sp.run(['python', '-c', f'print({expression})'])
@@ -187,8 +183,6 @@ while True:
             sp.run(['ping', '-c', '4', '8.8.8.8'])
         elif cmd == "calendar" or cmd == "showcalendar" or cmd == "viewcalendar":
             sp.run(['cal'])
-        elif cmd == "fortune" or cmd == "randomfortune" or cmd == "showfortune":
-            print("A fun social event is in your near future.")
         elif cmd == "rolladice" or cmd == "dice" or cmd == "rolldice":
             sp.run(['shuf', '-i', '1-6', '-n', '1'])
 
@@ -209,8 +203,7 @@ while True:
         # Open a local HTML file in the default web browser
             webbrowser.open('http://127.0.0.1:5500/gratitudepay.org/website.html')  # Adjust the URL as needed
         elif cmd == "greet" or cmd == "sayhello" or cmd == "hellomessage":
-            name = input("What is your name?")
-            print("Hello,", name, "!")
+            print("Hello,", f"{os.getlogin()}!",)
         elif cmd == "echo" or cmd == "repeat" or cmd == "say":
             message = input("Enter a message to echo: ")
             print(f"Echo: {message}")
@@ -226,8 +219,6 @@ while True:
             os.system('cls' if os.name == 'nt' else 'clear')
         elif cmd == "listusb" or cmd == "usblist" or cmd == "showusbdevices":
             sp.run(['wmic', 'diskdrive', 'list', 'brief'])
-        elif cmd == "custom" or cmd == "customcommand" or cmd == "runcustom":
-            print(locals())  # or print(globals())
         elif cmd == "systeminfo" or cmd == "info" or cmd == "showinfo":
             sp.run(['systeminfo'])
         elif cmd == "h" or cmd == "hist" or cmd == "history":
@@ -256,6 +247,8 @@ while True:
             sp.run(['shutdown', '/s', '00'])
         elif cmd == "insrs" or cmd == "instantrestart":
             sp.run(['shutdown', '/r' '00'])
+        elif cmd == "winrecov" or cmd == "recovery":
+            sp.run(['shutdown', '/r', '/o', '/f', '/t', '00'])
         elif cmd == "cpuinfo" or cmd == "processorinfo" or cmd == "showcpuinfo":
             print("CPU Information:")
             print(f"    CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical")
@@ -324,22 +317,19 @@ while True:
             print("    cd [directory] (changedir)   - Change current directory")
             print("    setbase (setbasedir, setdir) - Set base directory")
             print("    ls (list, dirlist)           - List files in the current directory")
-            print("    turtle (programmersturtle, drawturtle) - Draw a turtle")
             print("    time (currenttime, showtime) - Display current time")
             print("    !number (randomnumber, randnum) - Generate a random number")
             print("    date (currentdate, showdate) - Display current date")
             print("    whoami (myname, username)    - Display current username")
-            print("    !info (flashinfo, information) - Display flash information")
+            print("    !info (flashinfo, information) - Display flash information (NETWORK)")
             print("    weather (forecast, getweather) - Check weather")
             print("    randomword (randword, randomtext) - Display a random word")
             print("    download (fetchfile, getfile) - Download a file")
             print("    search [query]               - Search Google")
             print("    translate [text]             - Translate text")
-            print("    spotify (music, playmusic)   - Open Spotify")
             print("    calculate [expression]       - Calculate a math expression")
             print("    checkinternet (internetstatus, pinggoogle) - Check internet status")
             print("    calendar (showcalendar, viewcalendar) - Display calendar")
-            print("    fortune (randomfortune, showfortune) - Display a random fortune")
             print("    rolladice (dice, rolldice)   - Roll a six-sided dice")
             print("    wiki [topic]                 - Search Wikipedia")
             print("    quote [author]               - Get a random quote by the author")
@@ -352,7 +342,6 @@ while True:
             print("    uptime (systemuptime, showuptime) - Display system uptime")
             print("    clear (cls, cleanscreen)     - Clear the screen")
             print("    listusb (usblist, showusbdevices) - List connected USB devices")
-            print("    custom (customcommand, runcustom) - Run a custom command")
             print("    systeminfo (info, showinfo)  - Display system information")
             print("    netstat (networkstatus, shownetwork) - Display network status")
             print("    chmod [permission] [file]    - Change file permissions")

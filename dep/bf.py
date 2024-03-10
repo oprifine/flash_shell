@@ -1,49 +1,25 @@
-def bf():
-    tape = [0] * 30000
-    pointer = 0
-    output = []
+import pybrainfuck
 
-    stack = []
-    loop_start = {}
+def run_brainfuck(code):
+    # Create a Brainfuck interpreter
+    interpreter = pybrainfuck.Interpreter()
 
-    code = input("Enter BF code: ")
-    
-    i = 0
-    while i < len(code):
-        command = code[i]
+    # Run the provided Brainfuck code
+    interpreter.execute(code)
 
-        if command == '>':
-            pointer += 1
-        elif command == '<':
-            pointer -= 1
-        elif command == '+':
-            tape[pointer] += 1
-        elif command == '-':
-            tape[pointer] -= 1
-        elif command == '.':
-            output.append(chr(tape[pointer]))
-        elif command == ',':
-            # Input not implemented in this example
-            pass
-        elif command == '[':
-            stack.append(i)
-        elif command == ']':
-            if tape[pointer] == 0:
-                stack.pop()
-            else:
-                if i not in loop_start:
-                    loop_start[i] = stack.pop()
-                else:
-                    i = loop_start[i] - 1
+    # Get the output of the Brainfuck program
+    output = interpreter.output()
 
-        i += 1
+    return output
 
-    return ''.join(output)
+# Get user input for Brainfuck code
+code = input("Enter Brainfuck code: ")
 
-cmd = input("Enter brainf*ck code: ")
-
-if cmd == "exit":
-    for i in range (1):
-        break
-    else:
-        pass
+# Check if the input is 'exit' to terminate the loop
+if code == "exit":
+    # Perform any cleanup or exit actions if needed
+    pass
+else:
+    # Execute the Brainfuck code and print the output
+    result = run_brainfuck(code)
+    print("Output:", result)
