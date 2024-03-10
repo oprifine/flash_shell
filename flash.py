@@ -14,6 +14,7 @@ import http.server
 import socketserver
 import socket
 import matplotlib.pyplot as plt
+import platform
 
 
 print("Setting shell....")
@@ -23,6 +24,9 @@ set()
 print("Done loading!")
 
 print("Welcome to flash!")
+
+system = platform.system()
+print(f"Detected Operating System: {system}")
 
 base_dir = os.getcwd()
 
@@ -37,6 +41,29 @@ def run_script(script_name, *flags):
             print(f"Command not found. Please install the necessary tool or check the command.")
     else:
         print(f"Script not found: {script_name}")
+        
+import os
+import sys
+import platform
+
+
+
+def sys():
+    system = platform.system()
+    print(f"Detected Operating System: {system}")
+
+    if system == "Linux":
+        os.system("clear")  # Use "clear" to clear the terminal on Linux
+        os.environ["LC_ALL"] = "en_US.utf-8"  # Set locale for Linux
+    elif system == "Darwin":
+        os.system("clear")  # Use "clear" to clear the terminal on macOS
+        os.environ["LC_ALL"] = "en_US.utf-8"  # Set locale for macOS
+    elif system == "Windows":
+        os.system("cls")  # Use "cls" to clear the command prompt on Windows
+    else:
+        print("Unsupported operating system.")
+
+    return system
         
 def set():
     ti.sleep(0.9)
@@ -129,8 +156,6 @@ while True:
         if cmd == "ls" or cmd == "list" or cmd == "dirlist":
             files = os.listdir(base_dir)
             print("\n".join(files))
-        elif cmd == "malloc" or cmd == "memoryallocate":
-            
         if cmd == "therapist":
             print(f"you'll be fine")
         elif cmd == "bf" or cmd == "brainfuck":
