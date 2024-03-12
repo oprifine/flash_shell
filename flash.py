@@ -1,12 +1,12 @@
 import os
 from base64 import standard_b64decode
 import subprocess as sp
-import sys
+import sys as sys
 import datetime as dt
 import time as ti
-import psutil
+import psutil 
 import random as r
-import shutil
+import shutil 
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import webbrowser
