@@ -119,6 +119,8 @@ while True:
             run_script('databases/version.py', "--upgrade", "--flag1", "--flag2", "--flag3")
         elif cmd == "get" or cmd == "g" or cmd == "fetch" or cmd.startswith("pip") or cmd.startswith("apt" or "sudo" or "yum"):
             run_script('databases/installer.py', "--upgrade", "--flag1", "--flag2", "--flag3")
+        elif cmd.startswith("fl"):
+            pass
         elif cmd.startswith("cd ") or cmd.startswith("changedir "):
             new_path = cmd.split(" ", 1)[1].strip()
             full_path = os.path.join(base_dir, new_path)
